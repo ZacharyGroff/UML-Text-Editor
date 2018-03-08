@@ -106,17 +106,17 @@ public class Main extends Application {
 
 		// add images
 		ImageView ClassBoxImage = new ImageView(
-				new Image("file:Src/ClassBox.jpg", 50, 50, false, true));
+				new Image("file:src/ClassBox.jpg", 50, 50, false, true));
 		ImageView PackageImage = new ImageView(
-				new Image("file:Src/Package.jpg", 50, 50, false, true));
+				new Image("file:src/Package.jpg", 50, 50, false, true));
 		ImageView GeneralizationImage = new ImageView(
-				new Image("file:Src/Generalization.jpg", 50, 50, false, true));
+				new Image("file:src/Generalization.jpg", 50, 50, false, true));
 		ImageView CompositionImage = new ImageView(
-				new Image("file:Src/Composition.jpg", 50, 50, false, true));
+				new Image("file:src/Composition.jpg", 50, 50, false, true));
 		ImageView AggregationImage = new ImageView(
-				new Image("file:Src/Aggregation.jpg", 50, 50, false, true));
+				new Image("file:src/Aggregation.jpg", 50, 50, false, true));
 		ImageView DependencyImage = new ImageView(
-				new Image("file:Src/Dependency.jpg", 50, 50, false, true));
+				new Image("file:src/Dependency.jpg", 50, 50, false, true));
 		
 		// create buttons
 		ClassDiagram = new Button("", ClassBoxImage);
