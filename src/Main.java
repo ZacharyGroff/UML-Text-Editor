@@ -6,6 +6,8 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ToolBar;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -110,7 +112,7 @@ public class Main extends Application {
 		toolBar.prefWidthProperty().bind(gui.widthProperty());
 		
 		//create buttons
-		 Image imageClass = new Imge(getClass().getResourceAsStream("UML BOX.jpg"));
+		 Image imageClass = new Image(getClass().getResourceAsStream("UML BOX.jpg"), 48, 48, false, false);
 		 classDiagram = new Button();
 		 classDiagram.setGraphic(new ImageView(imageClass));
 		 packageDiagram = new Button("b");
