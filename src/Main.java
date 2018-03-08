@@ -26,9 +26,8 @@ public class Main extends Application {
 		double orgSceneX, orgSceneY;
 	    double orgTranslateX, orgTranslateY;
 	 
-	Image imageClass = new Imge(getClass().getResourceAsStream("UML BOX.jpg"));
+	
 	Button classDiagram = new Button();
-	classDiagram.setGraphic(new ImageView(imageClass));
 	Button packageDiagram = new Button("b");
 	Button objectDiagram = new Button("c");
 	Button componentDiagram = new Button("d");
@@ -111,7 +110,9 @@ public class Main extends Application {
 		toolBar.prefWidthProperty().bind(gui.widthProperty());
 		
 		//create buttons
-		 classDiagram = new Button("a");
+		 Image imageClass = new Imge(getClass().getResourceAsStream("UML BOX.jpg"));
+		 classDiagram = new Button();
+		 classDiagram.setGraphic(new ImageView(imageClass));
 		 packageDiagram = new Button("b");
 		 objectDiagram = new Button("c");
 		 componentDiagram = new Button("d");
