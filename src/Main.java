@@ -1,15 +1,17 @@
 import javafx.application.Application;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.*;
+import javafx.geometry.Point2D;
 import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ToolBar;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -22,14 +24,14 @@ public class Main extends Application {
 	
 	Stage gui;
 	BorderPane layout;
-	
-	   
+
 
 		double orgSceneX, orgSceneY;
 	    double orgTranslateX, orgTranslateY;
+	    double offsetX, offsetY;
+	    double newTranslateX, newTranslateY;
 	 
-	
-	Button classDiagram = new Button();
+	Button classDiagram = new Button("a");
 	Button packageDiagram = new Button("b");
 	Button objectDiagram = new Button("c");
 	Button componentDiagram = new Button("d");
@@ -67,15 +69,16 @@ public class Main extends Application {
 			     
 			            @Override
 			            public void handle(MouseEvent t) {
-			                double offsetX = t.getSceneX() - orgSceneX;
-			                double offsetY = t.getSceneY() - orgSceneY;
-			                double newTranslateX = orgTranslateX + offsetX;
-			                double newTranslateY = orgTranslateY + offsetY;
+			                offsetX = t.getSceneX() - orgSceneX;
+			                offsetY = t.getSceneY() - orgSceneY;
+			                newTranslateX = orgTranslateX + offsetX;
+			                newTranslateY = orgTranslateY + offsetY;
 			                 
 			                ((StackPane)(t.getSource())).setTranslateX(newTranslateX);
 			                ((StackPane)(t.getSource())).setTranslateY(newTranslateY);
 			            }
 			        };
+
 			        
 		gui = primaryStage;
 		
@@ -112,9 +115,7 @@ public class Main extends Application {
 		toolBar.prefWidthProperty().bind(gui.widthProperty());
 		
 		//create buttons
-		 Image imageClass = new Image(getClass().getResourceAsStream("UML BOX.jpg"), 48, 48, false, false);
-		 classDiagram = new Button();
-		 classDiagram.setGraphic(new ImageView(imageClass));
+		 classDiagram = new Button("a");
 		 packageDiagram = new Button("b");
 		 objectDiagram = new Button("c");
 		 componentDiagram = new Button("d");
@@ -131,79 +132,107 @@ public class Main extends Application {
 		 //create group
 		 Group root = new Group();
 		 
+		 
+
 		 Rectangle rectangle = new Rectangle();
 		 Rectangle rectangle2 = new Rectangle();
 		 Rectangle rectangle3 = new Rectangle();
 				 
-		 rectangle.setX(50);
-		 rectangle.setY(50);
-		 rectangle.setWidth(100);
-		 rectangle.setHeight(90);
-		 rectangle.setFill(Color.TRANSPARENT);
-		 rectangle.setStroke(Color.BLACK);
-		 rectangle.setStrokeWidth(5);
-
-	     //create Text
-	     Text text = new Text("Hello");
-	     text.setFill(Color.BLACK);
-	     
-	     //Add rectangle and text to stack
-	     stack.getChildren().addAll(rectangle, text);
-	     //stack.setLayoutX(50);
-	     //stack.setLayoutY(50);
-	     
-	     //create mouse events for stack
-	     stack.setCursor(Cursor.HAND);
-		 stack.setOnMousePressed(stackOnMousePressedEventHandler);
-		 stack.setOnMouseDragged(stackOnMouseDraggedEventHandler); 
 		 
-		 root.getChildren().add(stack);
+		 	rectangle.setX(200);
+			 rectangle.setY(50);
+			 rectangle.setWidth(100);
+			 rectangle.setHeight(90);
+			 rectangle.setFill(Color.TRANSPARENT);
+			 rectangle.setStroke(Color.BLACK);
+			 rectangle.setStrokeWidth(5);
+			 
+			 root.getChildren().addAll(rectangle);
+			 
+
 		 
 		 //create event handler for button a
 		classDiagram.setOnAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
 		    	
 				 //create Rectangle
+
+				 rectangle2.setX(50);
+				 rectangle2.setY(50);
+				 rectangle2.setWidth(100);
+				 rectangle2.setHeight(90);
+				 rectangle2.setFill(Color.TRANSPARENT);
+				 rectangle2.setStroke(Color.BLACK);
+				 rectangle2.setStrokeWidth(5);
+
+			     //create Text
+			     Text text = new Text("Hello");
+			     text.setFill(Color.BLACK);
+			     
+			     //Add rectangle and text to stack
+			     stack.getChildren().addAll(rectangle2, text);
+			     //stack.setLayoutX(50);
+			     //stack.setLayoutY(50);
+			     
+			     //create mouse events for stack
+			     stack.setCursor(Cursor.HAND);
+				 stack.setOnMousePressed(stackOnMousePressedEventHandler);
+				 stack.setOnMouseDragged(stackOnMouseDraggedEventHandler); 
 				 
-				
+				 root.getChildren().add(stack);
+
 		    }
 		});
-		
-	 	rectangle2.setX(200);
-		 rectangle2.setY(300);
-		 rectangle2.setWidth(100);
-		 rectangle2.setHeight(90);
-		 rectangle2.setFill(Color.TRANSPARENT);
-		 rectangle2.setStroke(Color.BLACK);
-		 rectangle2.setStrokeWidth(5);
-		 
-		 root.getChildren().addAll(rectangle2);
-		
-		//create line
-		  
-		    Line line = new Line(10,10,10,50);
-		    line.setStrokeWidth(5);
-		    
-		    line.startXProperty().bind(rectangle.xProperty());
-		    line.startYProperty().bind(rectangle.yProperty());
-
-		    line.endXProperty().bind(rectangle2.xProperty());
-		    line.endYProperty().bind(rectangle2.yProperty());
-
-		    line.setStrokeWidth(3);
-		    line.setStrokeLineCap(StrokeLineCap.BUTT);
-		    line.getStrokeDashArray().setAll(1.0, 4.0);
-		    
-		    root.getChildren().addAll(line);
-		   
 
 
 	    // add the line
-	    
-	   
-
-
+		
+		 Line line = new Line();
+		 line.setMouseTransparent(true);
+		 BooleanProperty dragging = new SimpleBooleanProperty();
+		 BooleanProperty draggingOverRect2 = new SimpleBooleanProperty();
 		 
+		 rectangle.setOnDragDetected(event -> {
+	            rectangle.startFullDrag();
+	            Point2D mouseSceneCoords = new Point2D(event.getSceneX(), event.getSceneY());
+	            Point2D mousePaneCoords = root.sceneToLocal(mouseSceneCoords);
+	            line.setStartX(mousePaneCoords.getX());
+	            line.setStartY(mousePaneCoords.getY());
+	            line.setEndX(mousePaneCoords.getX());
+	            line.setEndY(mousePaneCoords.getY());
+	            line.setStrokeWidth(5);
+	            root.getChildren().add(line);
+	            dragging.set(true);
+	        });
+		 
+		 root.setOnMouseDragged(event -> {
+	            if (dragging.get()) {
+	                line.setEndX(event.getX());
+	                line.setEndY(event.getY());
+	            }
+	        });
+		 
+		 rectangle.setOnMouseReleased(event -> {
+	            if (draggingOverRect2.get()) {
+	            	line.setStartX(rectangle.getX());
+		        line.setStartY(rectangle.getY());
+		        line.setEndX(newTranslateX);
+		        line.setEndY(newTranslateY);
+		        root.getChildren().add(line);
+	            }
+	            dragging.set(false);
+	            draggingOverRect2.set(false);
+	            root.getChildren().remove(line);
+	        });
+
+	        rectangle2.setOnMouseDragEntered(event -> {
+	            if (dragging.get()) {
+	                draggingOverRect2.set(true);
+	            }
+	        });
+	        rectangle2.setOnMouseDragExited(event -> draggingOverRect2.set(false));
+
+		 rectangle2.toFront();
 		 
 	    
 	    /*
