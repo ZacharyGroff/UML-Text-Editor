@@ -45,6 +45,41 @@ public class View extends Application {
 
 	public void start(Stage primaryStage) throws Exception {
 
+		gui = primaryStage;
+
+		gui.setTitle("UML Text Editor");
+		
+		// create group
+		Group root = new Group();
+						
+		// create stack
+		StackPane stack = new StackPane();
+
+		// set borderPane
+		layout = new BorderPane();
+		layout.setTop(CreateMenuBar(gui));
+		layout.setLeft(CreateToolbar(gui));
+		layout.setBottom(root);
+		
+		// create Scene
+		Scene scene = new Scene(layout, 1000, 750);
+		
+		gui.setScene(scene);
+				
+		Rectangle rectangle = new Rectangle();
+		Rectangle rectangle2 = new Rectangle();
+		Rectangle rectangle3 = new Rectangle();
+
+		rectangle.setX(200);
+		rectangle.setY(50);
+		rectangle.setWidth(100);
+		rectangle.setHeight(90);
+		rectangle.setFill(Color.TRANSPARENT);
+		rectangle.setStroke(Color.BLACK);
+		rectangle.setStrokeWidth(5);
+
+		root.getChildren().addAll(rectangle);
+
 		// create event handler to drag and drop
 		EventHandler<MouseEvent> stackOnMousePressedEventHandler = new EventHandler<MouseEvent>() {
 
@@ -70,82 +105,7 @@ public class View extends Application {
 				((StackPane) (t.getSource())).setTranslateY(newTranslateY);
 			}
 		};
-
-		gui = primaryStage;
-
-		gui.setTitle("UML Text Editor");
-
-		// create menus
-		Menu fileMenu = new Menu("File");
-		Menu editMenu = new Menu("Edit");
-		Menu viewMenu = new Menu("View");
-
-		// add menu items
-		fileMenu.getItems().add(new MenuItem("New"));
-		fileMenu.getItems().add(new MenuItem("Open"));
-		fileMenu.getItems().add(new MenuItem("Save"));
-		fileMenu.getItems().add(new MenuItem("Print"));
-
-		editMenu.getItems().add(new MenuItem("Copy"));
-		editMenu.getItems().add(new MenuItem("Paste"));
-		editMenu.getItems().add(new MenuItem("Cut"));
-		editMenu.getItems().add(new MenuItem("Undo"));
-		editMenu.getItems().add(new MenuItem("Redo"));
-
-		viewMenu.getItems().add(new MenuItem("Zoom in"));
-		viewMenu.getItems().add(new MenuItem("Zoom out"));
-
-		// add menu bars
-		MenuBar menuBar = new MenuBar();
-		menuBar.prefWidthProperty().bind(gui.widthProperty());
-		menuBar.getMenus().addAll(fileMenu, editMenu, viewMenu);
-
-		// create toolbar
-		ToolBar toolBar = new ToolBar();
-		toolBar.prefWidthProperty().bind(gui.widthProperty());
-
-		// add images
-		ImageView ClassBoxImage = new ImageView(
-				new Image("file:src/ClassBox.jpg", 50, 50, false, true));
-		ImageView PackageImage = new ImageView(
-				new Image("file:src/Package.jpg", 50, 50, false, true));
-		ImageView GeneralizationImage = new ImageView(
-				new Image("file:src/Generalization.jpg", 50, 50, false, true));
-		ImageView CompositionImage = new ImageView(
-				new Image("file:src/Composition.jpg", 50, 50, false, true));
-		ImageView AggregationImage = new ImageView(
-				new Image("file:src/Aggregation.jpg", 50, 50, false, true));
-		ImageView DependencyImage = new ImageView(
-				new Image("file:src/Dependency.jpg", 50, 50, false, true));
 		
-		// create buttons
-		ClassDiagram = new Button("", ClassBoxImage);
-		PackageDiagram = new Button("", PackageImage);
-		GeneralizationArrow = new Button("", GeneralizationImage);
-		CompositionArrow = new Button("", CompositionImage);
-		AggregationArrow = new Button("", AggregationImage);
-		DependencyArrow = new Button("", DependencyImage);
-		
-		// create stack
-		StackPane stack = new StackPane();
-
-		// create group
-		Group root = new Group();
-
-		Rectangle rectangle = new Rectangle();
-		Rectangle rectangle2 = new Rectangle();
-		Rectangle rectangle3 = new Rectangle();
-
-		rectangle.setX(200);
-		rectangle.setY(50);
-		rectangle.setWidth(100);
-		rectangle.setHeight(90);
-		rectangle.setFill(Color.TRANSPARENT);
-		rectangle.setStroke(Color.BLACK);
-		rectangle.setStrokeWidth(5);
-
-		root.getChildren().addAll(rectangle);
-
 		// create event handler for button a
 		ClassDiagram.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -239,21 +199,72 @@ public class View extends Application {
 		 * connection.setStrokeWidth(5); root.getChildren().add(connection);
 		 */
 
-		// add buttons to toolbar
-		toolBar.getItems().addAll(ClassDiagram, PackageDiagram, GeneralizationArrow,
-				CompositionArrow, AggregationArrow, DependencyArrow);
-
-		// set borderPane
-		layout = new BorderPane();
-		layout.setTop(menuBar);
-		layout.setLeft(toolBar);
-		layout.setBottom(root);
-
-		// create Scene
-		Scene scene = new Scene(layout, 1000, 750);
-
 		// display GUI
-		gui.setScene(scene);
 		gui.show();
+	}
+	
+	public static MenuBar CreateMenuBar(Stage gui) {
+				
+				// create menus
+				Menu fileMenu = new Menu("File");
+				Menu editMenu = new Menu("Edit");
+				Menu viewMenu = new Menu("View");
+
+				// add menu items
+				fileMenu.getItems().add(new MenuItem("New"));
+				fileMenu.getItems().add(new MenuItem("Open"));
+				fileMenu.getItems().add(new MenuItem("Save"));
+				fileMenu.getItems().add(new MenuItem("Print"));
+
+				editMenu.getItems().add(new MenuItem("Copy"));
+				editMenu.getItems().add(new MenuItem("Paste"));
+				editMenu.getItems().add(new MenuItem("Cut"));
+				editMenu.getItems().add(new MenuItem("Undo"));
+				editMenu.getItems().add(new MenuItem("Redo"));
+
+				viewMenu.getItems().add(new MenuItem("Zoom in"));
+				viewMenu.getItems().add(new MenuItem("Zoom out"));
+
+				// add menu bars
+				MenuBar menuBar = new MenuBar();
+				menuBar.prefWidthProperty().bind(gui.widthProperty());
+				menuBar.getMenus().addAll(fileMenu, editMenu, viewMenu);
+				
+				return menuBar;
+	}
+	
+	public ToolBar CreateToolbar(Stage gui) {
+				
+				// create toolbar
+				ToolBar toolBar = new ToolBar();
+				toolBar.prefWidthProperty().bind(gui.widthProperty());
+
+				// add images
+				ImageView ClassBoxImage = new ImageView(
+						new Image("file:src/ClassBox.jpg", 50, 50, false, true));
+				ImageView PackageImage = new ImageView(
+						new Image("file:src/Package.jpg", 50, 50, false, true));
+				ImageView GeneralizationImage = new ImageView(
+						new Image("file:src/Generalization.jpg", 50, 50, false, true));
+				ImageView CompositionImage = new ImageView(
+						new Image("file:src/Composition.jpg", 50, 50, false, true));
+				ImageView AggregationImage = new ImageView(
+						new Image("file:src/Aggregation.jpg", 50, 50, false, true));
+				ImageView DependencyImage = new ImageView(
+						new Image("file:src/Dependency.jpg", 50, 50, false, true));
+				
+				// create buttons
+				ClassDiagram = new Button("", ClassBoxImage);
+				PackageDiagram = new Button("", PackageImage);
+				GeneralizationArrow = new Button("", GeneralizationImage);
+				CompositionArrow = new Button("", CompositionImage);
+				AggregationArrow = new Button("", AggregationImage);
+				DependencyArrow = new Button("", DependencyImage);
+
+				// add buttons to toolbar
+				toolBar.getItems().addAll(ClassDiagram, PackageDiagram, GeneralizationArrow,
+						CompositionArrow, AggregationArrow, DependencyArrow);
+
+				return toolBar;
 	}
 }
