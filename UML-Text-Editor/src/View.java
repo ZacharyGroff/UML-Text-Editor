@@ -8,7 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -71,28 +71,8 @@ public class View extends Application {
 		
 		gui.setScene(scene);
 				
-		Rectangle rectangle = new Rectangle();
-		Rectangle rectangle2 = new Rectangle();
-		Rectangle rectangle3 = new Rectangle();
-		TextField name = new TextField();
-		name.setPromptText("Name");
-		TextField attr = new TextField();
-		attr.setPromptText("Attributes");
-		TextField op = new TextField();
-		op.setPromptText("Operations");
-		Text struct = new Text("Structure");
-		VBox t = new VBox(struct, name, attr, op);
-		t.setPrefWidth(150);
-		t.setStyle("-fx-border-color: black;");
+		Class t = new Class(new Text(), new TextArea(), new TextArea(), new TextArea());
 
-		rectangle.setX(200);
-		rectangle.setY(50);
-		rectangle.setWidth(100);
-		rectangle.setHeight(90);
-		rectangle.setFill(Color.TRANSPARENT);
-		rectangle.setStroke(Color.BLACK);
-		rectangle.setStrokeWidth(5);
-		
 		//stack.getChildren().add(t);
 		canvas.getChildren().addAll(t);
 
@@ -126,20 +106,11 @@ public class View extends Application {
 		ClassDiagram.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-
-				// create Rectangle
-
-				rectangle2.setX(50);
-				rectangle2.setY(50);
-				rectangle2.setWidth(100);
-				rectangle2.setHeight(90);
-				rectangle2.setFill(Color.TRANSPARENT);
-				rectangle2.setStroke(Color.BLACK);
-				rectangle2.setStrokeWidth(5);
+				
+				Class two = new Class(new Text(), new TextArea(), new TextArea(), new TextArea());
+				canvas.getChildren().add(two);
 
 				// create Text
-				Text text = new Text("Hello");
-				text.setFill(Color.BLACK);
 
 				// Add rectangle and text to stack
 				//stack.getChildren().addAll(rectangle2, text);
@@ -162,26 +133,8 @@ public class View extends Application {
 		line.setMouseTransparent(true);
 		BooleanProperty dragging = new SimpleBooleanProperty();
 		BooleanProperty draggingOverRect2 = new SimpleBooleanProperty();
-		
-		Delta d = new Delta();
-		
-		t.setOnMousePressed(new EventHandler<MouseEvent>() {
-			  @Override public void handle(MouseEvent mouseEvent) {
-			d.x = t.getLayoutX() - mouseEvent.getSceneX();
-		    d.y = t.getLayoutY() - mouseEvent.getSceneY();
-		    System.out.println(t.getLayoutX() + " " + t.getLayoutY());
-			t.setCursor(Cursor.MOVE);
-		}
-		});
-		
-		//TO-DO: Dragging up and down is currently wonky
-		t.setOnMouseDragged(new EventHandler<MouseEvent>() {
-			  @Override public void handle(MouseEvent mouseEvent) {
-			t.setLayoutX(mouseEvent.getSceneX() + (d.x / 1.));
-			t.setLayoutY(mouseEvent.getSceneY() + (d.y / 1.));
-		}});
 
-		rectangle.setOnDragDetected(event -> {
+		/*rectangle.setOnDragDetected(event -> {
 			rectangle.startFullDrag();
 			Point2D mouseSceneCoords = new Point2D(event.getSceneX(), event.getSceneY());
 			Point2D mousePaneCoords = canvas.sceneToLocal(mouseSceneCoords);
@@ -192,7 +145,7 @@ public class View extends Application {
 			line.setStrokeWidth(5);
 			canvas.getChildren().add(line);
 			dragging.set(true);
-		});
+		});*/
 
 		canvas.setOnMouseDragged(event -> {
 			if (dragging.get()) {
@@ -201,7 +154,7 @@ public class View extends Application {
 			}
 		});
 
-		rectangle.setOnMouseReleased(event -> {
+		/*rectangle.setOnMouseReleased(event -> {
 			if (draggingOverRect2.get()) {
 				line.setStartX(rectangle.getX());
 				line.setStartY(rectangle.getY());
@@ -212,16 +165,16 @@ public class View extends Application {
 			dragging.set(false);
 			draggingOverRect2.set(false);
 			canvas.getChildren().remove(line);
-		});
+		});*/
 
-		rectangle2.setOnMouseDragEntered(event -> {
+		/*rectangle2.setOnMouseDragEntered(event -> {
 			if (dragging.get()) {
 				draggingOverRect2.set(true);
 			}
 		});
 		rectangle2.setOnMouseDragExited(event -> draggingOverRect2.set(false));
 
-		rectangle2.toFront();
+		rectangle2.toFront();*/
 
 		/*
 		 * class Connection extends Line { public Connection(Rectangle startBall,
@@ -237,7 +190,7 @@ public class View extends Application {
 		gui.show();
 	}
 	
-	public static MenuBar CreateMenuBar(Stage gui) {
+	public MenuBar CreateMenuBar(Stage gui) {
 				
 				// create menus
 				Menu fileMenu = new Menu("File");
@@ -304,3 +257,60 @@ public class View extends Application {
 }
 
 class Delta { double x, y; }
+
+class Class extends VBox {
+	//TODO find out how to expand textfields to support multiple lines
+	//TODO support resizing
+	TextArea name;
+	TextArea attr;
+	TextArea op;
+	Text struct;
+	
+	public Class(Text struct, TextArea className, TextArea classAttr, TextArea classOp) {
+		super(struct,className,classAttr,classOp);
+		this.name = className;
+		this.attr = classAttr;
+		this.op = classOp;
+		this.struct = struct;
+		
+		this.struct.setText("Structure");		
+		name.setPromptText("Name");
+		attr.setPromptText("Attributes");
+		op.setPromptText("Operations");
+		setPrefWidth(150);
+		setPrefHeight(250);
+		wrapText(true);
+		//TODO: Create CSS file instead of hard-coded styles. 
+		setStyle("-fx-border-color: black;\n" + "-fx-border-width: 3;");
+		dragable();
+	}
+
+	private void wrapText(boolean b) {
+		// TODO Auto-generated method stub
+		name.setWrapText(b);
+		attr.setWrapText(b);
+		op.setWrapText(b);
+		
+	}
+
+	private void dragable() {
+		// TODO Current drag method is wonky when moving up and down.
+		// TODO Prevent objects from going off screen
+		Delta d = new Delta();
+		
+		setOnMousePressed(new EventHandler<MouseEvent>() {
+			  @Override public void handle(MouseEvent mouseEvent) {
+			d.x = getLayoutX() - mouseEvent.getSceneX();
+		    d.y = getLayoutY() - mouseEvent.getSceneY();
+		    System.out.println(getLayoutX() + " " + getLayoutY());
+			setCursor(Cursor.MOVE);
+		}
+		});
+		
+		setOnMouseDragged(new EventHandler<MouseEvent>() {
+			  @Override public void handle(MouseEvent mouseEvent) {
+			setLayoutX(mouseEvent.getSceneX() + d.x);
+			setLayoutY(mouseEvent.getSceneY() + d.y);
+		}});
+	}
+}
