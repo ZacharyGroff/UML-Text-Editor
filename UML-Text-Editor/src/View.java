@@ -8,12 +8,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -48,40 +50,34 @@ public class View extends Application {
 		gui = primaryStage;
 
 		gui.setTitle("UML Text Editor");
+		gui.setHeight(768);
+		gui.setWidth(1024);
 		
 		// create group
-		Group root = new Group();
+		Pane canvas = new Pane();
 						
 		// create stack
-		StackPane stack = new StackPane();
+		//StackPane stack = new StackPane();
 
 		// set borderPane
 		layout = new BorderPane();
+		layout.setPrefSize(640, 480);
 		layout.setTop(CreateMenuBar(gui));
 		layout.setLeft(CreateToolbar(gui));
-		layout.setBottom(root);
+		layout.setBottom(canvas);
 		
 		// create Scene
 		Scene scene = new Scene(layout, 1000, 750);
 		
 		gui.setScene(scene);
 				
-		Rectangle rectangle = new Rectangle();
-		Rectangle rectangle2 = new Rectangle();
-		Rectangle rectangle3 = new Rectangle();
+		Class t = new Class(new Text(), new TextArea(), new TextArea(), new TextArea());
 
-		rectangle.setX(200);
-		rectangle.setY(50);
-		rectangle.setWidth(100);
-		rectangle.setHeight(90);
-		rectangle.setFill(Color.TRANSPARENT);
-		rectangle.setStroke(Color.BLACK);
-		rectangle.setStrokeWidth(5);
-
-		root.getChildren().addAll(rectangle);
+		//stack.getChildren().add(t);
+		canvas.getChildren().addAll(t);
 
 		// create event handler to drag and drop
-		EventHandler<MouseEvent> stackOnMousePressedEventHandler = new EventHandler<MouseEvent>() {
+		/*EventHandler<MouseEvent> stackOnMousePressedEventHandler = new EventHandler<MouseEvent>() {
 
 			@Override
 			public void handle(MouseEvent t) {
@@ -104,38 +100,29 @@ public class View extends Application {
 				((StackPane) (t.getSource())).setTranslateX(newTranslateX);
 				((StackPane) (t.getSource())).setTranslateY(newTranslateY);
 			}
-		};
+		};*/
 		
 		// create event handler for button a
 		ClassDiagram.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-
-				// create Rectangle
-
-				rectangle2.setX(50);
-				rectangle2.setY(50);
-				rectangle2.setWidth(100);
-				rectangle2.setHeight(90);
-				rectangle2.setFill(Color.TRANSPARENT);
-				rectangle2.setStroke(Color.BLACK);
-				rectangle2.setStrokeWidth(5);
+				
+				Class two = new Class(new Text(), new TextArea(), new TextArea(), new TextArea());
+				canvas.getChildren().add(two);
 
 				// create Text
-				Text text = new Text("Hello");
-				text.setFill(Color.BLACK);
 
 				// Add rectangle and text to stack
-				stack.getChildren().addAll(rectangle2, text);
+				//stack.getChildren().addAll(rectangle2, text);
 				// stack.setLayoutX(50);
 				// stack.setLayoutY(50);
 
 				// create mouse events for stack
-				stack.setCursor(Cursor.HAND);
-				stack.setOnMousePressed(stackOnMousePressedEventHandler);
-				stack.setOnMouseDragged(stackOnMouseDraggedEventHandler);
+				//stack.setCursor(Cursor.HAND);
+				//stack.setOnMousePressed(stackOnMousePressedEventHandler);
+				//stack.setOnMouseDragged(stackOnMouseDraggedEventHandler);
 
-				root.getChildren().add(stack);
+				//root.getChildren().add(stack);
 
 			}
 		});
@@ -147,47 +134,47 @@ public class View extends Application {
 		BooleanProperty dragging = new SimpleBooleanProperty();
 		BooleanProperty draggingOverRect2 = new SimpleBooleanProperty();
 
-		rectangle.setOnDragDetected(event -> {
+		/*rectangle.setOnDragDetected(event -> {
 			rectangle.startFullDrag();
 			Point2D mouseSceneCoords = new Point2D(event.getSceneX(), event.getSceneY());
-			Point2D mousePaneCoords = root.sceneToLocal(mouseSceneCoords);
+			Point2D mousePaneCoords = canvas.sceneToLocal(mouseSceneCoords);
 			line.setStartX(mousePaneCoords.getX());
 			line.setStartY(mousePaneCoords.getY());
 			line.setEndX(mousePaneCoords.getX());
 			line.setEndY(mousePaneCoords.getY());
 			line.setStrokeWidth(5);
-			root.getChildren().add(line);
+			canvas.getChildren().add(line);
 			dragging.set(true);
-		});
+		});*/
 
-		root.setOnMouseDragged(event -> {
+		canvas.setOnMouseDragged(event -> {
 			if (dragging.get()) {
 				line.setEndX(event.getX());
 				line.setEndY(event.getY());
 			}
 		});
 
-		rectangle.setOnMouseReleased(event -> {
+		/*rectangle.setOnMouseReleased(event -> {
 			if (draggingOverRect2.get()) {
 				line.setStartX(rectangle.getX());
 				line.setStartY(rectangle.getY());
 				line.setEndX(newTranslateX);
 				line.setEndY(newTranslateY);
-				root.getChildren().add(line);
+				canvas.getChildren().add(line);
 			}
 			dragging.set(false);
 			draggingOverRect2.set(false);
-			root.getChildren().remove(line);
-		});
+			canvas.getChildren().remove(line);
+		});*/
 
-		rectangle2.setOnMouseDragEntered(event -> {
+		/*rectangle2.setOnMouseDragEntered(event -> {
 			if (dragging.get()) {
 				draggingOverRect2.set(true);
 			}
 		});
 		rectangle2.setOnMouseDragExited(event -> draggingOverRect2.set(false));
 
-		rectangle2.toFront();
+		rectangle2.toFront();*/
 
 		/*
 		 * class Connection extends Line { public Connection(Rectangle startBall,
@@ -203,7 +190,7 @@ public class View extends Application {
 		gui.show();
 	}
 	
-	public static MenuBar CreateMenuBar(Stage gui) {
+	public MenuBar CreateMenuBar(Stage gui) {
 				
 				// create menus
 				Menu fileMenu = new Menu("File");
@@ -266,5 +253,64 @@ public class View extends Application {
 						CompositionArrow, AggregationArrow, DependencyArrow);
 
 				return toolBar;
+	}
+}
+
+class Delta { double x, y; }
+
+class Class extends VBox {
+	//TODO find out how to expand textfields to support multiple lines
+	//TODO support resizing
+	TextArea name;
+	TextArea attr;
+	TextArea op;
+	Text struct;
+	
+	public Class(Text struct, TextArea className, TextArea classAttr, TextArea classOp) {
+		super(struct,className,classAttr,classOp);
+		this.name = className;
+		this.attr = classAttr;
+		this.op = classOp;
+		this.struct = struct;
+		
+		this.struct.setText("Structure");		
+		name.setPromptText("Name");
+		attr.setPromptText("Attributes");
+		op.setPromptText("Operations");
+		setPrefWidth(150);
+		setPrefHeight(250);
+		wrapText(true);
+		//TODO: Create CSS file instead of hard-coded styles. 
+		setStyle("-fx-border-color: black;\n" + "-fx-border-width: 3;");
+		dragable();
+	}
+
+	private void wrapText(boolean b) {
+		// TODO Auto-generated method stub
+		name.setWrapText(b);
+		attr.setWrapText(b);
+		op.setWrapText(b);
+		
+	}
+
+	private void dragable() {
+		// TODO Current drag method is wonky when moving up and down.
+		// TODO Prevent objects from going off screen
+		Delta d = new Delta();
+		
+		setOnMousePressed(new EventHandler<MouseEvent>() {
+			  @Override public void handle(MouseEvent mouseEvent) {
+			d.x = getLayoutX() - mouseEvent.getSceneX();
+		    d.y = getLayoutY() - mouseEvent.getSceneY();
+		    System.out.println(getLayoutX() + " " + getLayoutY());
+			setCursor(Cursor.MOVE);
+		}
+		});
+		
+		setOnMouseDragged(new EventHandler<MouseEvent>() {
+			  @Override public void handle(MouseEvent mouseEvent) {
+			setLayoutX(mouseEvent.getSceneX() + d.x);
+			setLayoutY(mouseEvent.getSceneY() + d.y);
+		}});
 	}
 }
