@@ -68,7 +68,7 @@ public class View extends Application {
 		//layout.setPrefSize(640, 480);
 		layout.setTop(vbox);
 		//ayout.setLeft(CreateToolbar(gui));
-		layout.setBottom(canvas);
+		layout.setCenter(canvas);
 		
 		// create Scene
 		Scene scene = new Scene(layout, 1000, 750);
