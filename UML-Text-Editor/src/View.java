@@ -55,16 +55,20 @@ public class View extends Application {
 		
 		// create group
 		Pane canvas = new Pane();
+		Group menu = new Group();
 						
 		// create stack
 		//StackPane stack = new StackPane();
 
 		// set borderPane
 		layout = new BorderPane();
-		layout.setPrefSize(640, 480);
-		layout.setTop(CreateMenuBar(gui));
-		layout.setLeft(CreateToolbar(gui));
-		layout.setBottom(canvas);
+		VBox vbox = new VBox();
+		vbox.getChildren().addAll(CreateMenuBar(gui),CreateToolbar(gui));
+		menu.getChildren().addAll(vbox);
+		//layout.setPrefSize(640, 480);
+		layout.setTop(vbox);
+		//ayout.setLeft(CreateToolbar(gui));
+		layout.setCenter(canvas);
 		
 		// create Scene
 		Scene scene = new Scene(layout, 1000, 750);
