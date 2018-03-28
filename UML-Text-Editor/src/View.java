@@ -55,15 +55,19 @@ public class View extends Application {
 		
 		// create group
 		Pane canvas = new Pane();
+		Group menu = new Group();
 						
 		// create stack
 		//StackPane stack = new StackPane();
 
 		// set borderPane
 		layout = new BorderPane();
-		layout.setPrefSize(640, 480);
-		layout.setTop(CreateMenuBar(gui));
-		layout.setLeft(CreateToolbar(gui));
+		VBox vbox = new VBox();
+		vbox.getChildren().addAll(CreateMenuBar(gui),CreateToolbar(gui));
+		menu.getChildren().addAll(vbox);
+		//layout.setPrefSize(640, 480);
+		layout.setTop(vbox);
+		//ayout.setLeft(CreateToolbar(gui));
 		layout.setBottom(canvas);
 		
 		// create Scene
@@ -286,7 +290,6 @@ class Class extends VBox {
 	}
 
 	private void wrapText(boolean b) {
-		// TODO Auto-generated method stub
 		name.setWrapText(b);
 		attr.setWrapText(b);
 		op.setWrapText(b);
