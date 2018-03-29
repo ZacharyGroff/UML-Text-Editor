@@ -13,6 +13,7 @@ import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -24,10 +25,16 @@ import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.text.Text;
 import javafx.stage.*;
 
+/**
+ * @
+ *
+ */
 public class View extends Application {
 
 	Stage gui;
 	BorderPane layout;
+	Pane canvas;
+	VBox menu;
 
 	double orgSceneX, orgSceneY;
 	double orgTranslateX, orgTranslateY;
@@ -54,28 +61,19 @@ public class View extends Application {
 		gui.setWidth(1024);
 		
 		// create group
-		Pane canvas = new Pane();
-		Group menu = new Group();
-						
-		// create stack
-		//StackPane stack = new StackPane();
-
-		// set borderPane
 		layout = new BorderPane();
-		VBox vbox = new VBox();
-		vbox.getChildren().addAll(CreateMenuBar(gui),CreateToolbar(gui));
-		menu.getChildren().addAll(vbox);
-		//layout.setPrefSize(640, 480);
-		layout.setTop(vbox);
-		//ayout.setLeft(CreateToolbar(gui));
+		menu = new VBox();
+		menuGenerate(menu);
+		canvas = new Pane();
+						
+		layout.setTop(menu);
 		layout.setCenter(canvas);
 		
 		// create Scene
-		Scene scene = new Scene(layout, 1000, 750);
-		
+		Scene scene = new Scene(layout);
 		gui.setScene(scene);
 				
-		Class t = new Class(new Text(), new TextArea(), new TextArea(), new TextArea());
+		UMLClass t = new UMLClass(new Text(), new TextArea(), new TextArea(), new TextArea());
 
 		//stack.getChildren().add(t);
 		canvas.getChildren().addAll(t);
@@ -111,8 +109,9 @@ public class View extends Application {
 			@Override
 			public void handle(ActionEvent e) {
 				
-				Class two = new Class(new Text(), new TextArea(), new TextArea(), new TextArea());
+				UMLClass two = new UMLClass(new Text(), new TextArea(), new TextArea(), new TextArea());
 				canvas.getChildren().add(two);
+				System.out.println(canvas.getChildren());
 
 				// create Text
 
@@ -194,7 +193,11 @@ public class View extends Application {
 		gui.show();
 	}
 	
-	public MenuBar CreateMenuBar(Stage gui) {
+	private void menuGenerate (VBox menu) {
+		menu.getChildren().addAll(CreateMenuBar(gui),CreateToolbar(gui));
+	}
+	
+	private MenuBar CreateMenuBar(Stage gui) {
 				
 				// create menus
 				Menu fileMenu = new Menu("File");
@@ -224,7 +227,7 @@ public class View extends Application {
 				return menuBar;
 	}
 	
-	public ToolBar CreateToolbar(Stage gui) {
+	private ToolBar CreateToolbar(Stage gui) {
 				
 				// create toolbar
 				ToolBar toolBar = new ToolBar();
@@ -261,59 +264,3 @@ public class View extends Application {
 }
 
 class Delta { double x, y; }
-
-class Class extends VBox {
-	//TODO find out how to expand textfields to support multiple lines
-	//TODO support resizing
-	TextArea name;
-	TextArea attr;
-	TextArea op;
-	Text struct;
-	
-	public Class(Text struct, TextArea className, TextArea classAttr, TextArea classOp) {
-		super(struct,className,classAttr,classOp);
-		this.name = className;
-		this.attr = classAttr;
-		this.op = classOp;
-		this.struct = struct;
-		
-		this.struct.setText("Structure");		
-		name.setPromptText("Name");
-		attr.setPromptText("Attributes");
-		op.setPromptText("Operations");
-		setPrefWidth(150);
-		setPrefHeight(250);
-		wrapText(true);
-		//TODO: Create CSS file instead of hard-coded styles. 
-		setStyle("-fx-border-color: black;\n" + "-fx-border-width: 3;");
-		dragable();
-	}
-
-	private void wrapText(boolean b) {
-		name.setWrapText(b);
-		attr.setWrapText(b);
-		op.setWrapText(b);
-		
-	}
-
-	private void dragable() {
-		// TODO Current drag method is wonky when moving up and down.
-		// TODO Prevent objects from going off screen
-		Delta d = new Delta();
-		
-		setOnMousePressed(new EventHandler<MouseEvent>() {
-			  @Override public void handle(MouseEvent mouseEvent) {
-			d.x = getLayoutX() - mouseEvent.getSceneX();
-		    d.y = getLayoutY() - mouseEvent.getSceneY();
-		    System.out.println(getLayoutX() + " " + getLayoutY());
-			setCursor(Cursor.MOVE);
-		}
-		});
-		
-		setOnMouseDragged(new EventHandler<MouseEvent>() {
-			  @Override public void handle(MouseEvent mouseEvent) {
-			setLayoutX(mouseEvent.getSceneX() + d.x);
-			setLayoutY(mouseEvent.getSceneY() + d.y);
-		}});
-	}
-}
