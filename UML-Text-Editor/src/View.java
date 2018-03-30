@@ -1,3 +1,7 @@
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.SequentialTransition;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -24,6 +28,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.text.Text;
 import javafx.stage.*;
+import javafx.util.Duration;
 
 /**
  * @
@@ -35,6 +40,7 @@ public class View extends Application {
 	BorderPane layout;
 	Pane canvas;
 	VBox menu;
+	Text text;
 
 	double orgSceneX, orgSceneY;
 	double orgTranslateX, orgTranslateY;
@@ -47,6 +53,7 @@ public class View extends Application {
 	Button AggregationArrow;
 	Button CompositionArrow;
 	Button GeneralizationArrow;
+	Timeline fadeIn, fadeOut, hold;
 	
 	public void begin() throws Exception {
 		launch();
@@ -65,15 +72,24 @@ public class View extends Application {
 		menu = new VBox();
 		menuGenerate(menu);
 		canvas = new Pane();
+		text = new Text();
+		text.setOpacity(0);
+		text.setStyle("-fx-font: 24 default");
+		
+		fadeIn = new Timeline();
+		fadeOut = new Timeline();
+		hold = new Timeline();
 						
 		layout.setTop(menu);
 		layout.setCenter(canvas);
+		layout.setBottom(text);
 		
 		// create Scene
 		Scene scene = new Scene(layout);
 		gui.setScene(scene);
 				
 		UMLClass t = new UMLClass(new Text(), new TextArea(), new TextArea(), new TextArea());
+		t.setDrag(true);
 
 		//stack.getChildren().add(t);
 		canvas.getChildren().addAll(t);
@@ -112,7 +128,12 @@ public class View extends Application {
 				UMLClass two = new UMLClass(new Text(), new TextArea(), new TextArea(), new TextArea());
 				canvas.getChildren().add(two);
 				System.out.println(canvas.getChildren());
-
+				text.setText("New Class added");
+				fadeText();
+				
+				for (Node i : canvas.getChildren()) {
+					((UMLClass) i).setDrag(true);
+				}
 				// create Text
 
 				// Add rectangle and text to stack
@@ -129,16 +150,31 @@ public class View extends Application {
 
 			}
 		});
-
-		// add the line
-
+		
 		Line line = new Line();
 		line.setMouseTransparent(true);
 		BooleanProperty dragging = new SimpleBooleanProperty();
 		BooleanProperty draggingOverRect2 = new SimpleBooleanProperty();
+		
+		GeneralizationArrow.setOnAction(new EventHandler<ActionEvent>() {
 
-		/*rectangle.setOnDragDetected(event -> {
-			rectangle.startFullDrag();
+			@Override
+			public void handle(ActionEvent event) {
+				// TODO Auto-generated method stub
+				text.setText("Now in line mode");
+				fadeText();
+				for (Node i : canvas.getChildren()) {
+					((UMLClass) i).setDrag(false);
+				}
+				//UMLClass.setDrag(false);
+			}
+		});
+
+		// add the line
+
+		t.setOnDragDetected(event -> {
+			if(dragging.getValue()) {
+			t.startFullDrag();
 			Point2D mouseSceneCoords = new Point2D(event.getSceneX(), event.getSceneY());
 			Point2D mousePaneCoords = canvas.sceneToLocal(mouseSceneCoords);
 			line.setStartX(mousePaneCoords.getX());
@@ -147,8 +183,9 @@ public class View extends Application {
 			line.setEndY(mousePaneCoords.getY());
 			line.setStrokeWidth(5);
 			canvas.getChildren().add(line);
-			dragging.set(true);
-		});*/
+			//dragging.set(true);
+			}
+		});
 
 		canvas.setOnMouseDragged(event -> {
 			if (dragging.get()) {
@@ -195,6 +232,14 @@ public class View extends Application {
 	
 	private void menuGenerate (VBox menu) {
 		menu.getChildren().addAll(CreateMenuBar(gui),CreateToolbar(gui));
+	}
+	
+	private void fadeText() {
+		fadeIn.getKeyFrames().add(new KeyFrame(Duration.millis(500), new KeyValue (text.opacityProperty(), 1)));
+		hold.getKeyFrames().add(new KeyFrame(Duration.millis(2000)));
+		fadeOut.getKeyFrames().add(new KeyFrame(Duration.millis(300), new KeyValue (text.opacityProperty(), 0)));
+		SequentialTransition seq = new SequentialTransition(fadeIn, hold, fadeOut);
+		seq.play();
 	}
 	
 	private MenuBar CreateMenuBar(Stage gui) {
