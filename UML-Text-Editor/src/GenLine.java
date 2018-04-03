@@ -5,11 +5,31 @@ public class GenLine extends Line {
 	
 	Pane canvas;
 	double x1, x2, y1, y2;
+	UMLClass parent, child;
+	GenLine ref;
 	
 	public GenLine(Pane c) {
 		super();
 		setMouseTransparent(true);
 		canvas = c;
+		ref = this;
+		setStrokeWidth(5);
+	}
+	
+	public void setParent (UMLClass p) {
+		parent = p;
+		setStartX(parent.getLayoutX() + parent.getWidth() / 2);
+		setStartY(parent.getLayoutY() + parent.getHeight() / 2);
+		//canvas.getChildren().add(ref);
+	}
+	
+	public void setChild (UMLClass c) {
+		child = c;
+		setEndX(child.getLayoutX() + child.getWidth() / 2);
+		setEndY(child.getLayoutY() + child.getHeight() / 2);
+		canvas.getChildren().add(ref);
+		toBack();
+		System.out.println(getStartX() + " " + getStartY());
 	}
 	
 	public GenLine (double a, double b, double c, double d) {
@@ -22,6 +42,18 @@ public class GenLine extends Line {
 		setEndX(x2);
 		setEndY(y2);
 		setStrokeWidth(5);
+	}
+
+	public void update() {
+		// TODO Auto-generated method stub
+		if (parent != null) {
+		setStartX(parent.getLayoutX() + parent.getWidth() / 2);
+		setStartY(parent.getLayoutY() + parent.getHeight() / 2);
+		}
+		if (child != null) {
+		setEndX(child.getLayoutX() + child.getWidth() / 2);
+		setEndY(child.getLayoutY() + child.getHeight() / 2);
+		}
 	}
 	
 }

@@ -23,6 +23,10 @@ public class UMLClass extends VBox {
 	Text struct;
 	static Boolean drag;
 	Pane canvas;
+	UMLClass ref;
+	GenLine[] collection = new GenLine[10];
+	int lineCount;
+	Boolean lineExist;
 
 	public UMLClass(Pane c,Text struct, TextArea className, TextArea classAttr, TextArea classOp) {
 		super(struct, className, classAttr, classOp);
@@ -31,6 +35,8 @@ public class UMLClass extends VBox {
 		this.op = classOp;
 		this.struct = struct;
 		canvas = c;
+		ref = this;
+		lineCount = 0;
 
 		this.struct.setText("Structure");
 		name.setPromptText("Name");
@@ -42,6 +48,7 @@ public class UMLClass extends VBox {
 		// TODO: Create CSS file instead of hard-coded styles.
 		setStyle("-fx-background-color: #00b8f5;\n" + "-fx-border-color: black;\n" + "-fx-border-width: 3;");
 		drag = true;
+		lineExist = false;
 		//dragable();
 	}
 
@@ -81,6 +88,12 @@ public class UMLClass extends VBox {
 				public void handle(MouseEvent mouseEvent) {
 					setLayoutX(mouseEvent.getSceneX() + d.x);
 					setLayoutY(mouseEvent.getSceneY() + d.y);
+					if (lineExist) {
+						for (int i = 0; i < lineCount; i++) {
+						collection[i].update();
+						System.out.println("aaa");
+						}
+					}
 				}
 			});
 		} else {
@@ -88,6 +101,17 @@ public class UMLClass extends VBox {
 			setOnMousePressed(new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent mouseEvent) {
+					int l = lineCount - 1;
+					if(View.state == 1) {
+					collection[l].setParent(ref);
+					lineExist = true;
+					View.state++;
+					} else if (View.state == 2) {
+						collection[l].setChild(ref);
+						lineExist = true;
+						//trueLine = line;
+						View.state = 0;
+					}
 				}
 			});
 			
@@ -97,5 +121,10 @@ public class UMLClass extends VBox {
 				}
 			});
 		}
+	}
+
+	public void setPoLine(GenLine line2) {
+		// TODO Auto-generated method stub
+		collection[lineCount++] = line2;
 	}
 }

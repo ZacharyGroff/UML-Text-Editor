@@ -55,6 +55,8 @@ public class View extends Application {
 	Button CompositionArrow;
 	Button GeneralizationArrow;
 	Timeline fadeIn, fadeOut, hold;
+	
+	static int state;
 
 	public void begin() throws Exception {
 		launch();
@@ -84,6 +86,8 @@ public class View extends Application {
 		layout.setTop(menu);
 		layout.setCenter(canvas);
 		layout.setBottom(text);
+		
+		state = 0;
 
 		// create Scene
 		Scene scene = new Scene(layout);
@@ -163,20 +167,24 @@ public class View extends Application {
 				// TODO Auto-generated method stub
 				text.setText("Now in line mode");
 				fadeText();
+				GenLine line = new GenLine(canvas);
 				for (Node i : canvas.getChildren()) {
-					if (UMLClass.class.isInstance(i))
+					if (UMLClass.class.isInstance(i)) {
 						((UMLClass) i).setDrag(false);
+						((UMLClass) i).setPoLine(line);
+					}
 				}
 				dragging.set(true);
+				state = 1;
 				// UMLClass.setDrag(false);
 			}
 		});
+		
+		//GenLine line = new GenLine(canvas);
 
 		// add the line
 
-		GenLine line = new GenLine(canvas);
-
-		t1.setOnDragDetected(new EventHandler<MouseEvent>() {
+		/*t1.setOnDragDetected(new EventHandler<MouseEvent>() {
 			
 			@Override
 			public void handle(MouseEvent event) {
@@ -221,7 +229,7 @@ public class View extends Application {
 			dragging.set(false);
 			draggingOverRect2.set(false);
 			// canvas.getChildren().remove(line);
-		});
+		});*/
 
 		/*
 		 * rectangle2.setOnMouseDragEntered(event -> { if (dragging.get()) {
