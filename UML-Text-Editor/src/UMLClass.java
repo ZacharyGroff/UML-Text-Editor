@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.control.TextArea;
@@ -24,21 +26,24 @@ public class UMLClass extends VBox {
 	static Boolean drag;
 	Pane canvas;
 	UMLClass ref;
-	GenLine[] collection = new GenLine[10];
+	// GenLine[] collection = new GenLine[10];
+	ArrayList<GenLine> collection = new ArrayList<>(10);
 	int lineCount;
 	Boolean lineExist;
+	View view;
 
-	public UMLClass(Pane c,Text struct, TextArea className, TextArea classAttr, TextArea classOp) {
+	public UMLClass(View view, Pane c, Text struct, TextArea className, TextArea classAttr, TextArea classOp) {
 		super(struct, className, classAttr, classOp);
 		this.name = className;
 		this.attr = classAttr;
 		this.op = classOp;
 		this.struct = struct;
+		this.view = view;
 		canvas = c;
 		ref = this;
 		lineCount = 0;
 
-		this.struct.setText("Structure");
+		this.struct.setText("Class Box                      ");
 		name.setPromptText("Name");
 		attr.setPromptText("Attributes");
 		op.setPromptText("Operations");
@@ -49,7 +54,7 @@ public class UMLClass extends VBox {
 		setStyle("-fx-background-color: #00b8f5;\n" + "-fx-border-color: black;\n" + "-fx-border-width: 3;");
 		drag = true;
 		lineExist = false;
-		//dragable();
+		// dragable();
 	}
 
 	private void wrapText(boolean b) {
@@ -68,7 +73,20 @@ public class UMLClass extends VBox {
 	private void dragable() {
 		// TODO Prevent objects from going off screen
 		Delta d = new Delta();
-		System.out.println(drag);
+
+		struct.setOnMouseEntered(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent mouseEvent) {
+				setStyle("-fx-background-color: yellow;\n" + "-fx-border-color: black;\n" + "-fx-border-width: 3;");
+			}
+		});
+
+		struct.setOnMouseExited(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent mouseEvent) {
+				setStyle("-fx-background-color: #00b8f5;\n" + "-fx-border-color: black;\n" + "-fx-border-width: 3;");
+			}
+		});
 
 		if (drag) {
 
@@ -77,7 +95,6 @@ public class UMLClass extends VBox {
 				public void handle(MouseEvent mouseEvent) {
 					d.x = getLayoutX() - mouseEvent.getSceneX();
 					d.y = getLayoutY() - mouseEvent.getSceneY();
-					System.out.println(getLayoutX() + " " + getLayoutY());
 					setCursor(Cursor.MOVE);
 					toFront();
 				}
@@ -89,32 +106,33 @@ public class UMLClass extends VBox {
 					setLayoutX(mouseEvent.getSceneX() + d.x);
 					setLayoutY(mouseEvent.getSceneY() + d.y);
 					if (lineExist) {
-						for (int i = 0; i < lineCount; i++) {
-						collection[i].update();
-						System.out.println("aaa");
+						for (GenLine line : collection) {
+							line.update();
 						}
 					}
 				}
 			});
 		} else {
-			
+
 			setOnMousePressed(new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent mouseEvent) {
 					int l = lineCount - 1;
-					if(View.state == 1) {
-					collection[l].setParent(ref);
-					lineExist = true;
-					View.state++;
-					} else if (View.state == 2) {
-						collection[l].setChild(ref);
+					if (view.getState() == 1) {
+						collection.get(l).setParent(ref);
 						lineExist = true;
-						//trueLine = line;
-						View.state = 0;
+						view.setState(view.getState() + 1);
+						;
+					} else if (view.getState() == 2) {
+						collection.get(l).setChild(ref);
+						lineExist = true;
+						// trueLine = line;
+						view.setState(0);
+						view.setDragable();
 					}
 				}
 			});
-			
+
 			setOnMouseDragged(new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent mouseEvent) {
@@ -125,6 +143,8 @@ public class UMLClass extends VBox {
 
 	public void setPoLine(GenLine line2) {
 		// TODO Auto-generated method stub
-		collection[lineCount++] = line2;
+		// collection[lineCount++] = line2;
+		lineCount++;
+		collection.add(line2);
 	}
 }

@@ -41,6 +41,7 @@ public class View extends Application {
 	Pane canvas;
 	VBox menu;
 	Text text;
+	View ref;
 
 	double orgSceneX, orgSceneY;
 	double orgTranslateX, orgTranslateY;
@@ -54,9 +55,10 @@ public class View extends Application {
 	Button AggregationArrow;
 	Button CompositionArrow;
 	Button GeneralizationArrow;
+	Button Selector;
 	Timeline fadeIn, fadeOut, hold;
-	
-	static int state;
+
+	int state;
 
 	public void begin() throws Exception {
 		launch();
@@ -86,15 +88,17 @@ public class View extends Application {
 		layout.setTop(menu);
 		layout.setCenter(canvas);
 		layout.setBottom(text);
-		
+
 		state = 0;
+
+		ref = this;
 
 		// create Scene
 		Scene scene = new Scene(layout);
 		gui.setScene(scene);
 
-		UMLClass t1 = new UMLClass(canvas, new Text(), new TextArea(), new TextArea(), new TextArea());
-		UMLClass t2 = new UMLClass(canvas, new Text(), new TextArea(), new TextArea(), new TextArea());
+		UMLClass t1 = new UMLClass(ref, canvas, new Text(), new TextArea(), new TextArea(), new TextArea());
+		UMLClass t2 = new UMLClass(ref, canvas, new Text(), new TextArea(), new TextArea(), new TextArea());
 
 		t1.setDrag(true);
 		t2.setDrag(true);
@@ -102,7 +106,7 @@ public class View extends Application {
 		t1.toFront();
 
 		// stack.getChildren().add(t);
-		canvas.getChildren().addAll(t1, t2);
+		// canvas.getChildren().addAll(t1, t2);
 
 		// create event handler to drag and drop
 		/*
@@ -130,7 +134,7 @@ public class View extends Application {
 			@Override
 			public void handle(ActionEvent e) {
 
-				UMLClass two = new UMLClass(canvas, new Text(), new TextArea(), new TextArea(), new TextArea());
+				UMLClass two = new UMLClass(ref, canvas, new Text(), new TextArea(), new TextArea(), new TextArea());
 				canvas.getChildren().add(two);
 				System.out.println(canvas.getChildren());
 				text.setText("New Class added");
@@ -165,8 +169,9 @@ public class View extends Application {
 			@Override
 			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
-				text.setText("Now in line mode");
-				fadeText();
+				text.setText("Now in line mode: Click on the parent, followed by the child");
+				text.setOpacity(1);
+				// fadeText();
 				GenLine line = new GenLine(canvas);
 				for (Node i : canvas.getChildren()) {
 					if (UMLClass.class.isInstance(i)) {
@@ -179,57 +184,53 @@ public class View extends Application {
 				// UMLClass.setDrag(false);
 			}
 		});
-		
-		//GenLine line = new GenLine(canvas);
+
+		Selector.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				state = 0;
+				text.setText("Now in Select mode");
+				fadeText();
+
+				for (Node i : canvas.getChildren()) {
+					if (UMLClass.class.isInstance(i))
+						((UMLClass) i).setDrag(true);
+				}
+			}
+		});
+
+		// GenLine line = new GenLine(canvas);
 
 		// add the line
 
-		/*t1.setOnDragDetected(new EventHandler<MouseEvent>() {
-			
-			@Override
-			public void handle(MouseEvent event) {
-				if (dragging.getValue()) {
-					t1.startFullDrag();
-					Point2D mouseSceneCoords = new Point2D(event.getSceneX(), event.getSceneY());
-					Point2D mousePaneCoords = canvas.sceneToLocal(mouseSceneCoords);
-					line.setStartX(mousePaneCoords.getX());
-					line.setStartY(mousePaneCoords.getY());
-					line.setEndX(mousePaneCoords.getX());
-					line.setEndY(mousePaneCoords.getY());
-					line.setStrokeWidth(5);
-					canvas.getChildren().add(line);
-				}
-			}
-			
-		});
-
-		canvas.setOnMouseDragged(event -> {
-			if (dragging.get()) {
-				line.setEndX(event.getX());
-				line.setEndY(event.getY());
-			}
-		});
-
-		t2.setOnMouseDragEntered(event -> {
-			// if (draggingOverRect2.get()) {
-			line.setStartX(t1.getLayoutX() + t1.getWidth() / 2);
-			x1 = t1.getLayoutX() + t1.getWidth() / 2;
-			line.setStartY(t1.getLayoutY() + t1.getHeight() / 2);
-			y1 = t1.getLayoutY() + t1.getWidth() / 2;
-			line.setEndX(t2.getLayoutX() + t2.getWidth() / 2);
-			x2 = t2.getLayoutX() + t2.getWidth() / 2;
-			line.setEndY(t2.getLayoutY() + t2.getHeight() / 2);
-			y2 = t2.getLayoutY() + t2.getHeight() / 2;
-			line.toBack();
-			GenLine realLine = new GenLine(x1, x2, y1, y2);
-			canvas.getChildren().remove(line);
-			canvas.getChildren().add(realLine);
-			// canvas.getChildren().add(line);
-			// }
-			dragging.set(false);
-			draggingOverRect2.set(false);
-			// canvas.getChildren().remove(line);
-		});*/
+		/*
+		 * t1.setOnDragDetected(new EventHandler<MouseEvent>() {
+		 * 
+		 * @Override public void handle(MouseEvent event) { if (dragging.getValue()) {
+		 * t1.startFullDrag(); Point2D mouseSceneCoords = new Point2D(event.getSceneX(),
+		 * event.getSceneY()); Point2D mousePaneCoords =
+		 * canvas.sceneToLocal(mouseSceneCoords);
+		 * line.setStartX(mousePaneCoords.getX());
+		 * line.setStartY(mousePaneCoords.getY()); line.setEndX(mousePaneCoords.getX());
+		 * line.setEndY(mousePaneCoords.getY()); line.setStrokeWidth(5);
+		 * canvas.getChildren().add(line); } }
+		 * 
+		 * });
+		 * 
+		 * canvas.setOnMouseDragged(event -> { if (dragging.get()) {
+		 * line.setEndX(event.getX()); line.setEndY(event.getY()); } });
+		 * 
+		 * t2.setOnMouseDragEntered(event -> { // if (draggingOverRect2.get()) {
+		 * line.setStartX(t1.getLayoutX() + t1.getWidth() / 2); x1 = t1.getLayoutX() +
+		 * t1.getWidth() / 2; line.setStartY(t1.getLayoutY() + t1.getHeight() / 2); y1 =
+		 * t1.getLayoutY() + t1.getWidth() / 2; line.setEndX(t2.getLayoutX() +
+		 * t2.getWidth() / 2); x2 = t2.getLayoutX() + t2.getWidth() / 2;
+		 * line.setEndY(t2.getLayoutY() + t2.getHeight() / 2); y2 = t2.getLayoutY() +
+		 * t2.getHeight() / 2; line.toBack(); GenLine realLine = new GenLine(x1, x2, y1,
+		 * y2); canvas.getChildren().remove(line); canvas.getChildren().add(realLine);
+		 * // canvas.getChildren().add(line); // } dragging.set(false);
+		 * draggingOverRect2.set(false); // canvas.getChildren().remove(line); });
+		 */
 
 		/*
 		 * rectangle2.setOnMouseDragEntered(event -> { if (dragging.get()) {
@@ -243,8 +244,28 @@ public class View extends Application {
 		gui.show();
 	}
 
+	public void setDragable() {
+
+		for (Node i : canvas.getChildren()) {
+			if (UMLClass.class.isInstance(i))
+				((UMLClass) i).setDrag(true);
+		}
+
+	}
+
 	private void menuGenerate(VBox menu) {
 		menu.getChildren().addAll(CreateMenuBar(gui), CreateToolbar(gui));
+	}
+
+	public void setState(int s) {
+		if (s < 0 || s > 2)
+			state = 0;
+		else
+			state = s;
+	}
+
+	public int getState() {
+		return state;
 	}
 
 	private void fadeText() {
@@ -306,10 +327,11 @@ public class View extends Application {
 		CompositionArrow = new Button("", CompositionImage);
 		AggregationArrow = new Button("", AggregationImage);
 		DependencyArrow = new Button("", DependencyImage);
+		Selector = new Button("Selector");
 
 		// add buttons to toolbar
 		toolBar.getItems().addAll(ClassDiagram, PackageDiagram, GeneralizationArrow, CompositionArrow, AggregationArrow,
-				DependencyArrow);
+				DependencyArrow, Selector);
 
 		return toolBar;
 	}
