@@ -37,7 +37,6 @@ public class View extends Application {
 	double orgTranslateX, orgTranslateY;
 	double offsetX, offsetY;
 	double newTranslateX, newTranslateY;
-	double x1, x2, y1, y2;
 
 	Button ClassDiagram;
 	Button PackageDiagram;
@@ -105,6 +104,7 @@ public class View extends Application {
 			}
 		});
 
+
 		GeneralizationArrow.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -118,8 +118,8 @@ public class View extends Application {
 						((UMLClass) i).setDrag(false);
 						((UMLClass) i).setPoLine(line);
 					}
-				}
 				state = 1;
+				}
 			}
 		});
 
