@@ -3,10 +3,7 @@ import javafx.animation.KeyValue;
 import javafx.animation.SequentialTransition;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.*;
-import javafx.geometry.Point2D;
 import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
@@ -16,16 +13,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.text.Text;
 import javafx.stage.*;
 import javafx.util.Duration;
@@ -97,38 +87,6 @@ public class View extends Application {
 		Scene scene = new Scene(layout);
 		gui.setScene(scene);
 
-		UMLClass t1 = new UMLClass(ref, canvas, new Text(), new TextArea(), new TextArea(), new TextArea());
-		UMLClass t2 = new UMLClass(ref, canvas, new Text(), new TextArea(), new TextArea(), new TextArea());
-
-		t1.setDrag(true);
-		t2.setDrag(true);
-
-		t1.toFront();
-
-		// stack.getChildren().add(t);
-		// canvas.getChildren().addAll(t1, t2);
-
-		// create event handler to drag and drop
-		/*
-		 * EventHandler<MouseEvent> stackOnMousePressedEventHandler = new
-		 * EventHandler<MouseEvent>() {
-		 * 
-		 * @Override public void handle(MouseEvent t) { orgSceneX = t.getSceneX();
-		 * orgSceneY = t.getSceneY(); orgTranslateX = ((StackPane)
-		 * (t.getSource())).getTranslateX(); orgTranslateY = ((StackPane)
-		 * (t.getSource())).getTranslateY(); } };
-		 * 
-		 * EventHandler<MouseEvent> stackOnMouseDraggedEventHandler = new
-		 * EventHandler<MouseEvent>() {
-		 * 
-		 * @Override public void handle(MouseEvent t) { offsetX = t.getSceneX() -
-		 * orgSceneX; offsetY = t.getSceneY() - orgSceneY; newTranslateX = orgTranslateX
-		 * + offsetX; newTranslateY = orgTranslateY + offsetY;
-		 * 
-		 * ((StackPane) (t.getSource())).setTranslateX(newTranslateX); ((StackPane)
-		 * (t.getSource())).setTranslateY(newTranslateY); } };
-		 */
-
 		// create event handler for button a
 		ClassDiagram.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -144,25 +102,8 @@ public class View extends Application {
 					if (UMLClass.class.isInstance(i))
 						((UMLClass) i).setDrag(true);
 				}
-				// create Text
-
-				// Add rectangle and text to stack
-				// stack.getChildren().addAll(rectangle2, text);
-				// stack.setLayoutX(50);
-				// stack.setLayoutY(50);
-
-				// create mouse events for stack
-				// stack.setCursor(Cursor.HAND);
-				// stack.setOnMousePressed(stackOnMousePressedEventHandler);
-				// stack.setOnMouseDragged(stackOnMouseDraggedEventHandler);
-
-				// root.getChildren().add(stack);
-
 			}
 		});
-		// line.setMouseTransparent(true);
-		BooleanProperty dragging = new SimpleBooleanProperty();
-		BooleanProperty draggingOverRect2 = new SimpleBooleanProperty();
 
 		GeneralizationArrow.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -171,7 +112,6 @@ public class View extends Application {
 				// TODO Auto-generated method stub
 				text.setText("Now in line mode: Click on the parent, followed by the child");
 				text.setOpacity(1);
-				// fadeText();
 				GenLine line = new GenLine(canvas);
 				for (Node i : canvas.getChildren()) {
 					if (UMLClass.class.isInstance(i)) {
@@ -179,9 +119,7 @@ public class View extends Application {
 						((UMLClass) i).setPoLine(line);
 					}
 				}
-				dragging.set(true);
 				state = 1;
-				// UMLClass.setDrag(false);
 			}
 		});
 
@@ -199,48 +137,6 @@ public class View extends Application {
 			}
 		});
 
-		// GenLine line = new GenLine(canvas);
-
-		// add the line
-
-		/*
-		 * t1.setOnDragDetected(new EventHandler<MouseEvent>() {
-		 * 
-		 * @Override public void handle(MouseEvent event) { if (dragging.getValue()) {
-		 * t1.startFullDrag(); Point2D mouseSceneCoords = new Point2D(event.getSceneX(),
-		 * event.getSceneY()); Point2D mousePaneCoords =
-		 * canvas.sceneToLocal(mouseSceneCoords);
-		 * line.setStartX(mousePaneCoords.getX());
-		 * line.setStartY(mousePaneCoords.getY()); line.setEndX(mousePaneCoords.getX());
-		 * line.setEndY(mousePaneCoords.getY()); line.setStrokeWidth(5);
-		 * canvas.getChildren().add(line); } }
-		 * 
-		 * });
-		 * 
-		 * canvas.setOnMouseDragged(event -> { if (dragging.get()) {
-		 * line.setEndX(event.getX()); line.setEndY(event.getY()); } });
-		 * 
-		 * t2.setOnMouseDragEntered(event -> { // if (draggingOverRect2.get()) {
-		 * line.setStartX(t1.getLayoutX() + t1.getWidth() / 2); x1 = t1.getLayoutX() +
-		 * t1.getWidth() / 2; line.setStartY(t1.getLayoutY() + t1.getHeight() / 2); y1 =
-		 * t1.getLayoutY() + t1.getWidth() / 2; line.setEndX(t2.getLayoutX() +
-		 * t2.getWidth() / 2); x2 = t2.getLayoutX() + t2.getWidth() / 2;
-		 * line.setEndY(t2.getLayoutY() + t2.getHeight() / 2); y2 = t2.getLayoutY() +
-		 * t2.getHeight() / 2; line.toBack(); GenLine realLine = new GenLine(x1, x2, y1,
-		 * y2); canvas.getChildren().remove(line); canvas.getChildren().add(realLine);
-		 * // canvas.getChildren().add(line); // } dragging.set(false);
-		 * draggingOverRect2.set(false); // canvas.getChildren().remove(line); });
-		 */
-
-		/*
-		 * rectangle2.setOnMouseDragEntered(event -> { if (dragging.get()) {
-		 * draggingOverRect2.set(true); } }); rectangle2.setOnMouseDragExited(event ->
-		 * draggingOverRect2.set(false));
-		 * 
-		 * rectangle2.toFront();
-		 */
-
-		// display GUI
 		gui.show();
 	}
 
