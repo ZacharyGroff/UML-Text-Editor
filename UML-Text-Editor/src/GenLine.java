@@ -55,4 +55,12 @@ public class GenLine extends Line {
 		}
 	}
 	
+	public UMLClass getLineChild() {
+		return child;
+	}
+	
+	public UMLClass getLineParent() {
+		return parent;
+	}
+	
 }
