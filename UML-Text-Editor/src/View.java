@@ -206,6 +206,7 @@ public class View extends Application {
 		// add images
 		ImageView ClassBoxImage = new ImageView(new Image("file:src/ClassBox.jpg", 50, 50, false, true));
 		ImageView PackageImage = new ImageView(new Image("file:src/Package.jpg", 50, 50, false, true));
+		ImageView DeleteImage = new ImageView(new Image("file:src/Delete.jpg", 50, 50, false, true));
 		ImageView GeneralizationImage = new ImageView(new Image("file:src/Generalization.jpg", 50, 50, false, true));
 		ImageView CompositionImage = new ImageView(new Image("file:src/Composition.jpg", 50, 50, false, true));
 		ImageView AggregationImage = new ImageView(new Image("file:src/Aggregation.jpg", 50, 50, false, true));
@@ -214,6 +215,7 @@ public class View extends Application {
 		// create buttons
 		ClassDiagram = new Button("", ClassBoxImage);
 		PackageDiagram = new Button("", PackageImage);
+		Delete = new Button("", DeleteImage );
 		GeneralizationArrow = new Button("", GeneralizationImage);
 		CompositionArrow = new Button("", CompositionImage);
 		AggregationArrow = new Button("", AggregationImage);
@@ -221,7 +223,7 @@ public class View extends Application {
 		Selector = new Button("Selector");
 
 		// add buttons to toolbar
-		toolBar.getItems().addAll(ClassDiagram, PackageDiagram, GeneralizationArrow, CompositionArrow, AggregationArrow,
+		toolBar.getItems().addAll(ClassDiagram, PackageDiagram, Delete, GeneralizationArrow, CompositionArrow, AggregationArrow,
 				DependencyArrow, Selector);
 
 		return toolBar;
