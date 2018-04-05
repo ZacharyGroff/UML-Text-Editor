@@ -35,31 +35,32 @@ public class JUnitTestSeq {
 	
 	@Test
 	public void constructUMLBox(){
-		Pane canvas = new Pane();
-		UMLClass testBox = new UMLClass(canvas, new Text(), new TextArea(), new TextArea(), new TextArea());
+		View view = new View();
+		UMLClass testBox = new UMLClass(view, new Text(), new TextArea(), new TextArea(), new TextArea());
 		Assert.assertTrue("Class Box has been generated", testBox != null);
 	}
 	
 	@Test
 	public void makeUMLBoxDraggable() {
-		Pane canvas = new Pane();
-		UMLClass testBox = new UMLClass(canvas, new Text(), new TextArea(), new TextArea(), new TextArea());
+		View view = new View();
+		UMLClass testBox = new UMLClass(view, new Text(), new TextArea(), new TextArea(), new TextArea());
 		testBox.setDrag(true);
 		Assert.assertTrue("Class Box is draggable", testBox.drag);
 	}
 	
 	@Test
 	public void constructLine() {
-		Pane canvas = new Pane();
-		GenLine line = new GenLine(canvas);
+		Pane view = new Pane();
+		GenLine line = new GenLine(view);
 		Assert.assertTrue("Line has been generated", line != null);
 	}
 	
 	@Test
 	public void connectUMLBoxes() {
 		Pane canvas = new Pane();
-		UMLClass testBox = new UMLClass(canvas, new Text(), new TextArea(), new TextArea(), new TextArea());
-		UMLClass testBox2 = new UMLClass(canvas, new Text(), new TextArea(), new TextArea(), new TextArea());
+		View view = new View();
+		UMLClass testBox = new UMLClass(view, new Text(), new TextArea(), new TextArea(), new TextArea());
+		UMLClass testBox2 = new UMLClass(view, new Text(), new TextArea(), new TextArea(), new TextArea());
 		GenLine line = new GenLine(canvas);
 		line.setParent(testBox);
 		line.setChild(testBox2);
@@ -68,32 +69,32 @@ public class JUnitTestSeq {
 	
 	@Test
 	public void outOfBoundsTop() {
-		Pane canvas = new Pane();
-		UMLClass testBox = new UMLClass(canvas, new Text(), new TextArea(), new TextArea(), new TextArea());
+		View view = new View();
+		UMLClass testBox = new UMLClass(view, new Text(), new TextArea(), new TextArea(), new TextArea());
 		testBox.setLayoutY(-20);
 		Assert.assertTrue("Class box is not able to be moved out the drawing region towards the top of the GUI", testBox.getLayoutY() >= 0);
 	}
 	
 	@Test
 	public void outOfBoundsBottom() {
-		Pane canvas = new Pane();
-		UMLClass testBox = new UMLClass(canvas, new Text(), new TextArea(), new TextArea(), new TextArea());
+		View view = new View();
+		UMLClass testBox = new UMLClass(view, new Text(), new TextArea(), new TextArea(), new TextArea());
 		testBox.setLayoutY(1000);
 		Assert.assertTrue("Class box is not able to be moved out the drawing region towards the bottom of the GUI", testBox.getLayoutY() <= 850);
 	}
 	
 	@Test
 	public void outOfBoundsLeft() {
-		Pane canvas = new Pane();
-		UMLClass testBox = new UMLClass(canvas, new Text(), new TextArea(), new TextArea(), new TextArea());
+		View view = new View();
+		UMLClass testBox = new UMLClass(view, new Text(), new TextArea(), new TextArea(), new TextArea());
 		testBox.setLayoutX(-50);
 		Assert.assertTrue("Class box is not able to be moved out the drawing region towards the bottom of the GUI", testBox.getLayoutX() >= 0);
 	}
 	
 	@Test
 	public void outOfBoundsRight() {
-		Pane canvas = new Pane();
-		UMLClass testBox = new UMLClass(canvas, new Text(), new TextArea(), new TextArea(), new TextArea());
+		View view = new View();
+		UMLClass testBox = new UMLClass(view, new Text(), new TextArea(), new TextArea(), new TextArea());
 		testBox.setLayoutX(2000);
 		Assert.assertTrue("Class box is not able to be moved out the drawing region towards the bottom of the GUI", testBox.getLayoutX() < 1560);
 	}
