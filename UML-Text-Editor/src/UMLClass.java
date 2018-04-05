@@ -8,11 +8,12 @@ import javafx.scene.text.Text;
 import javafx.scene.layout.Pane;
 
 /**
+ * UMLClass is a Java representation of a UML Class diagram. UMLClass consists four child nodes:
+ * one Text object and three TextArea objects. The Text object acts as a header and makes it 
+ * clear to the user that UMLClass is a representation of a Class Diagram.  The three TextArea objects
+ * contain information for the Class Diagram's name, attributes, and operations, in that order.
  * 
- */
-
-/**
- * @author mattm
+ * @author Matthew Gormley
  *
  */
 public class UMLClass extends VBox {
@@ -21,43 +22,57 @@ public class UMLClass extends VBox {
 	TextArea name;
 	TextArea attr;
 	TextArea op;
-	Text type;
+	Text type = new Text();
 	static Boolean drag;
-	Pane canvas;
 	UMLClass ref;
 	ArrayList<GenLine> collection = new ArrayList<>(10);
 	int lineCount;
 	View view;
 
-	public UMLClass(View view, Pane c, Text struct, TextArea className, TextArea classAttr, TextArea classOp) {
-		super(struct, className, classAttr, classOp);
+	/**
+	 * Creates a UMLClass with a set size and style as determined by the stylize method.
+	 * 
+	 * @param view A reference to the view object that created the UMLCLass
+	 * @param type The initial type for this UMLClass
+	 * @param className The initial name for this UMLClass
+	 * @param classAttr The initial attribute for this UMLClass
+	 * @param classOp The initial operation for this UMLCLass
+	 */
+	public UMLClass(View view, Text type, TextArea className, TextArea classAttr, TextArea classOp) {
+		super(type, className, classAttr, classOp);
 		this.name = className;
 		this.attr = classAttr;
 		this.op = classOp;
-		this.type = struct;
+		this.type = type;
 		this.view = view;
-		canvas = c;
 		ref = this;
 		lineCount = 0;
 
-		this.type.setText("Class Box                      ");
+		stylize();
+		drag = true;
+	}
+	
+	/**
+	 * Sets the attributes of the UMLClass, the style and preferred dimensions, 
+	 * and the attributes of the child nodes, the prompt text and wrapping of each Text Area.
+	 */
+	private void stylize() {
+		type.setText("Class Diagram                ");
 		name.setPromptText("Name");
 		attr.setPromptText("Attributes");
 		op.setPromptText("Operations");
 		setPrefWidth(150);
 		setPrefHeight(250);
-		wrapText(true);
-		// TODO: Create CSS file instead of hard-coded styles.
+		name.setWrapText(true);
+		attr.setWrapText(true);
+		op.setWrapText(true);
 		setStyle("-fx-background-color: #00b8f5;\n" + "-fx-border-color: black;\n" + "-fx-border-width: 3;");
-		drag = true;
 	}
 
-	private void wrapText(boolean b) {
-		name.setWrapText(b);
-		attr.setWrapText(b);
-		op.setWrapText(b);
-	}
-
+	
+	/**
+	 * Sets the value of the property drag, and calls the dragable method with this updated value
+	 */
 	public void setDrag(Boolean b) {
 		drag = b;
 		dragable();
@@ -117,7 +132,7 @@ public class UMLClass extends VBox {
 					} else if (view.getState() == 2) {
 						collection.get(l).setChild(ref);
 						view.setState(0);
-						view.setDragable();
+						view.selectMode();
 					}
 				}
 			});

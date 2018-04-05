@@ -91,7 +91,7 @@ public class View extends Application {
 			@Override
 			public void handle(ActionEvent e) {
 
-				UMLClass two = new UMLClass(ref, canvas, new Text(), new TextArea(), new TextArea(), new TextArea());
+				UMLClass two = new UMLClass(ref, new Text(), new TextArea(), new TextArea(), new TextArea());
 				canvas.getChildren().add(two);
 				System.out.println(canvas.getChildren());
 				text.setText("New Class added");
@@ -127,26 +127,21 @@ public class View extends Application {
 			@Override
 			public void handle(ActionEvent event) {
 				state = 0;
-				text.setText("Now in Select mode");
-				fadeText();
-
-				for (Node i : canvas.getChildren()) {
-					if (UMLClass.class.isInstance(i))
-						((UMLClass) i).setDrag(true);
-				}
+				selectMode();
 			}
 		});
 
 		gui.show();
 	}
 
-	public void setDragable() {
+	public void selectMode() {
 
 		for (Node i : canvas.getChildren()) {
 			if (UMLClass.class.isInstance(i))
 				((UMLClass) i).setDrag(true);
 		}
-
+		text.setText("Now in Select mode");
+		fadeText();
 	}
 
 	private void menuGenerate(VBox menu) {
@@ -166,7 +161,7 @@ public class View extends Application {
 
 	private void fadeText() {
 		fadeIn.getKeyFrames().add(new KeyFrame(Duration.millis(500), new KeyValue(text.opacityProperty(), 1)));
-		hold.getKeyFrames().add(new KeyFrame(Duration.millis(2000)));
+		hold.getKeyFrames().add(new KeyFrame(Duration.millis(1000)));
 		fadeOut.getKeyFrames().add(new KeyFrame(Duration.millis(300), new KeyValue(text.opacityProperty(), 0)));
 		SequentialTransition seq = new SequentialTransition(fadeIn, hold, fadeOut);
 		seq.play();

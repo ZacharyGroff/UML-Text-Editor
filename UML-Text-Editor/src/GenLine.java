@@ -20,7 +20,6 @@ public class GenLine extends Line {
 		parent = p;
 		setStartX(parent.getLayoutX() + parent.getWidth() / 2);
 		setStartY(parent.getLayoutY() + parent.getHeight() / 2);
-		//canvas.getChildren().add(ref);
 	}
 	
 	public void setChild (UMLClass c) {
