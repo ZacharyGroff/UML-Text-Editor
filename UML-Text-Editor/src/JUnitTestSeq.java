@@ -51,7 +51,7 @@ public class JUnitTestSeq {
 	@Test
 	public void constructLine() {
 		Pane view = new Pane();
-		GenLine line = new GenLine(view);
+		BinAssoc line = new BinAssoc(view);
 		Assert.assertTrue("Line has been generated", line != null);
 	}
 	
@@ -61,7 +61,7 @@ public class JUnitTestSeq {
 		View view = new View();
 		UMLClass testBox = new UMLClass(view, new Text(), new TextArea(), new TextArea(), new TextArea());
 		UMLClass testBox2 = new UMLClass(view, new Text(), new TextArea(), new TextArea(), new TextArea());
-		GenLine line = new GenLine(canvas);
+		BinAssoc line = new BinAssoc(canvas);
 		line.setParent(testBox);
 		line.setChild(testBox2);
 		Assert.assertTrue("Line has been generated with testBox as parent and testBox2 as child", line.getLineParent() == testBox && line.getLineChild() == testBox2);

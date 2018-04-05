@@ -43,7 +43,7 @@ public class View extends Application {
 	Button DependencyArrow;
 	Button AggregationArrow;
 	Button CompositionArrow;
-	Button GeneralizationArrow;
+	Button AssociationArrow;
 	Button Selector;
 	Timeline fadeIn, fadeOut, hold;
 
@@ -105,14 +105,14 @@ public class View extends Application {
 		});
 
 
-		GeneralizationArrow.setOnAction(new EventHandler<ActionEvent>() {
+		AssociationArrow.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
 				text.setText("Now in line mode: Click on the parent, followed by the child");
 				text.setOpacity(1);
-				GenLine line = new GenLine(canvas);
+				BinAssoc line = new BinAssoc(canvas);
 				for (Node i : canvas.getChildren()) {
 					if (UMLClass.class.isInstance(i)) {
 						((UMLClass) i).setDrag(false);
@@ -214,14 +214,14 @@ public class View extends Application {
 		// create buttons
 		ClassDiagram = new Button("", ClassBoxImage);
 		PackageDiagram = new Button("", PackageImage);
-		GeneralizationArrow = new Button("", GeneralizationImage);
+		AssociationArrow = new Button("", GeneralizationImage);
 		CompositionArrow = new Button("", CompositionImage);
 		AggregationArrow = new Button("", AggregationImage);
 		DependencyArrow = new Button("", DependencyImage);
 		Selector = new Button("Selector");
 
 		// add buttons to toolbar
-		toolBar.getItems().addAll(ClassDiagram, PackageDiagram, GeneralizationArrow, CompositionArrow, AggregationArrow,
+		toolBar.getItems().addAll(ClassDiagram, PackageDiagram, AssociationArrow, CompositionArrow, AggregationArrow,
 				DependencyArrow, Selector);
 
 		return toolBar;

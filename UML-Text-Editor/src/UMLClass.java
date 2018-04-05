@@ -19,14 +19,41 @@ import javafx.scene.layout.Pane;
 public class UMLClass extends VBox {
 	// TODO find out how to expand textfields to support multiple lines
 	// TODO support resizing
+	/**
+	 * The user-given name of the Class Diagram.
+	 */
 	TextArea name;
+	/**
+	 * The user-given attributes of the Class Diagram.
+	 */
 	TextArea attr;
+	/**
+	 * The user-given operations of the Class Diagram.
+	 */
 	TextArea op;
+	/**
+	 * The header for the Class Diagram.
+	 */
 	Text type = new Text();
+	/**
+	 * Boolean value for whether the Class Diagrams can be dragged around. True indicates that they can be dragged.
+	 */
 	static Boolean drag;
+	/**
+	 * A reference to the UMLClass itself.
+	 */
 	UMLClass ref;
-	ArrayList<GenLine> collection = new ArrayList<>(10);
+	/**
+	 * A collection of the Generalization lines associated with the UMLCLass.
+	 */
+	ArrayList<BinAssoc> collection = new ArrayList<>(10);
+	/**
+	 * An integer count of the number of lines associated with the UMLClass.
+	 */
 	int lineCount;
+	/**
+	 * A reference to the view that created the UMLClass
+	 */
 	View view;
 
 	/**
@@ -71,13 +98,16 @@ public class UMLClass extends VBox {
 
 	
 	/**
-	 * Sets the value of the property drag, and calls the dragable method with this updated value
+	 * Sets the value of the property drag, and calls the dragable method with this updated value.
 	 */
 	public void setDrag(Boolean b) {
 		drag = b;
 		dragable();
 	}
 
+	/**
+	 * Handles all the mouse events for the UMLClass.
+	 */
 	private void dragable() {
 		// TODO Prevent objects from going off screen
 		Delta d = new Delta();
@@ -113,7 +143,7 @@ public class UMLClass extends VBox {
 				public void handle(MouseEvent mouseEvent) {
 					setLayoutX(mouseEvent.getSceneX() + d.x);
 					setLayoutY(mouseEvent.getSceneY() + d.y);
-					for (GenLine line : collection) {
+					for (BinAssoc line : collection) {
 						line.update();
 					}
 				}
@@ -145,7 +175,7 @@ public class UMLClass extends VBox {
 		}
 	}
 
-	public void setPoLine(GenLine line2) {
+	public void setPoLine(BinAssoc line2) {
 		// TODO Auto-generated method stub
 		lineCount++;
 		collection.add(line2);

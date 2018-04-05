@@ -1,14 +1,14 @@
 import javafx.scene.shape.Line;
 import javafx.scene.layout.Pane;
 
-public class GenLine extends Line {
+public class BinAssoc extends Line {
 	
 	Pane canvas;
 	double x1, x2, y1, y2;
 	UMLClass parent, child;
-	GenLine ref;
+	BinAssoc ref;
 	
-	public GenLine(Pane c) {
+	public BinAssoc(Pane c) {
 		super();
 		setMouseTransparent(true);
 		canvas = c;
@@ -31,7 +31,7 @@ public class GenLine extends Line {
 		System.out.println(getStartX() + " " + getStartY());
 	}
 	
-	public GenLine (double a, double b, double c, double d) {
+	public BinAssoc (double a, double b, double c, double d) {
 		x1 = a;
 		x2 = b;
 		y1 = c;
