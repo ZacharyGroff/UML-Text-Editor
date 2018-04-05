@@ -40,7 +40,7 @@ public class View extends Application {
 
 	Button ClassDiagram;
 	Button PackageDiagram;
-	Button Delete
+	Button Delete;
 	Button DependencyArrow;
 	Button AggregationArrow;
 	Button CompositionArrow;
