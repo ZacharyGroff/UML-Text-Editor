@@ -39,6 +39,7 @@ public class View extends Application {
 	double newTranslateX, newTranslateY;
 
 	Button ClassDiagram;
+	Button Delete;
 	Button PackageDiagram;
 	Button DependencyArrow;
 	Button AggregationArrow;
@@ -239,22 +240,25 @@ public class View extends Application {
 		// add images
 		ImageView ClassBoxImage = new ImageView(new Image("file:src/ClassBox.jpg", 50, 50, false, true));
 		ImageView PackageImage = new ImageView(new Image("file:src/Package.jpg", 50, 50, false, true));
+		ImageView DeleteImage = new ImageView(new Image("file:src/Delete.jpg", 50, 50, false, true));
 		ImageView GeneralizationImage = new ImageView(new Image("file:src/Generalization.jpg", 50, 50, false, true));
 		ImageView CompositionImage = new ImageView(new Image("file:src/Composition.jpg", 50, 50, false, true));
 		ImageView AggregationImage = new ImageView(new Image("file:src/Aggregation.jpg", 50, 50, false, true));
 		ImageView DependencyImage = new ImageView(new Image("file:src/Dependency.jpg", 50, 50, false, true));
-
+		ImageView SelectorImage = new ImageView(new Image("file:src/Select.jpg", 50, 50, false, true));
+		
 		// create buttons
 		ClassDiagram = new Button("", ClassBoxImage);
 		PackageDiagram = new Button("", PackageImage);
 		AssociationArrow = new Button("", GeneralizationImage);
+		Delete = new Button("", DeleteImage );
 		CompositionArrow = new Button("", CompositionImage);
 		AggregationArrow = new Button("", AggregationImage);
 		DependencyArrow = new Button("", DependencyImage);
-		Selector = new Button("Selector");
+		Selector = new Button("", SelectorImage);
 
 		// add buttons to toolbar
-		toolBar.getItems().addAll(ClassDiagram, PackageDiagram, AssociationArrow, CompositionArrow, AggregationArrow,
+		toolBar.getItems().addAll(ClassDiagram, PackageDiagram, Delete, AssociationArrow, CompositionArrow, AggregationArrow,
 				DependencyArrow, Selector);
 
 		return toolBar;
