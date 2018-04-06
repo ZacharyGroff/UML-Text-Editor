@@ -39,8 +39,8 @@ public class View extends Application {
 	double newTranslateX, newTranslateY;
 
 	Button ClassDiagram;
-	Button PackageDiagram;
 	Button Delete;
+	Button PackageDiagram;
 	Button DependencyArrow;
 	Button AggregationArrow;
 	Button CompositionArrow;
@@ -212,7 +212,8 @@ public class View extends Application {
 		ImageView CompositionImage = new ImageView(new Image("file:src/Composition.jpg", 50, 50, false, true));
 		ImageView AggregationImage = new ImageView(new Image("file:src/Aggregation.jpg", 50, 50, false, true));
 		ImageView DependencyImage = new ImageView(new Image("file:src/Dependency.jpg", 50, 50, false, true));
-
+		ImageView SelectorImage = new ImageView(new Image("file:src/Select.jpg", 50, 50, false, true));
+		
 		// create buttons
 		ClassDiagram = new Button("", ClassBoxImage);
 		PackageDiagram = new Button("", PackageImage);
@@ -221,7 +222,7 @@ public class View extends Application {
 		CompositionArrow = new Button("", CompositionImage);
 		AggregationArrow = new Button("", AggregationImage);
 		DependencyArrow = new Button("", DependencyImage);
-		Selector = new Button("Selector");
+		Selector = new Button("", SelectorImage);
 
 		// add buttons to toolbar
 		toolBar.getItems().addAll(ClassDiagram, PackageDiagram, Delete, GeneralizationArrow, CompositionArrow, AggregationArrow,
