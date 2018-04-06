@@ -106,7 +106,14 @@ public class UMLClass extends VBox {
 	}
 
 	/**
-	 * Handles all the mouse events for the UMLClass.
+	 * Handles all the mouse events for the UMLClass.  When the mouse hovers over the header of a UMLClass, then the
+	 * header color will change from blue to yellow.
+	 * 
+	 * If the Boolean drag is true, then clicking on a UMLCLass and dragging it will drag the UMLClass along with the mouse.
+	 * Dragging a UMLClass will also update the positions of all lines connected to UMLCLass objects.
+	 * 
+	 * If the Boolean drag is false, then clicking on a UMLClass will set that object to either be a parent or child of
+	 * the potential line.
 	 */
 	private void dragable() {
 		// TODO Prevent objects from going off screen
@@ -158,7 +165,6 @@ public class UMLClass extends VBox {
 					if (view.getState() == 1) {
 						collection.get(l).setParent(ref);
 						view.setState(view.getState() + 1);
-						;
 					} else if (view.getState() == 2) {
 						collection.get(l).setChild(ref);
 						view.setState(0);
@@ -175,6 +181,11 @@ public class UMLClass extends VBox {
 		}
 	}
 
+	/**
+	 * Provides the UMLClass with a line that may use a reference to the UMLClass itself.
+	 * 
+	 * @param line2 A line that may potentially need a reference to the UMLClass
+	 */
 	public void setPoLine(BinAssoc line2) {
 		// TODO Auto-generated method stub
 		lineCount++;

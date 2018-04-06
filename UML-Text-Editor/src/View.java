@@ -21,7 +21,7 @@ import javafx.stage.*;
 import javafx.util.Duration;
 
 /**
- * @
+ * 
  *
  */
 public class View extends Application {
@@ -47,6 +47,13 @@ public class View extends Application {
 	Button Selector;
 	Timeline fadeIn, fadeOut, hold;
 
+	/**
+	 * The current state of the view. The states are mapped as follows:<br>
+	 * 0 = The default state.  Each structure in the canvas can be dragged.<br>
+	 * 1 = A line object is created and structures in the canvas are no longer draggable. When a structure is clicked on,
+	 * it becomes the parent of the line.<br>
+	 * 2 = The same as state one, except when a structure is clicked on, it becomes the child of the line.
+	 */
 	int state;
 
 	public void begin() throws Exception {
@@ -86,21 +93,11 @@ public class View extends Application {
 		Scene scene = new Scene(layout);
 		gui.setScene(scene);
 
-		// create event handler for button a
 		ClassDiagram.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
 
-				UMLClass two = new UMLClass(ref, new Text(), new TextArea(), new TextArea(), new TextArea());
-				canvas.getChildren().add(two);
-				System.out.println(canvas.getChildren());
-				text.setText("New Class added");
-				fadeText();
-
-				for (Node i : canvas.getChildren()) {
-					if (UMLClass.class.isInstance(i))
-						((UMLClass) i).setDrag(true);
-				}
+				createClassDiagram();
 			}
 		});
 
@@ -110,23 +107,13 @@ public class View extends Application {
 			@Override
 			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
-				text.setText("Now in line mode: Click on the parent, followed by the child");
-				text.setOpacity(1);
-				BinAssoc line = new BinAssoc(canvas);
-				for (Node i : canvas.getChildren()) {
-					if (UMLClass.class.isInstance(i)) {
-						((UMLClass) i).setDrag(false);
-						((UMLClass) i).setPoLine(line);
-					}
-				state = 1;
-				}
+				createAssociationArrow();
 			}
 		});
 
 		Selector.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				state = 0;
 				selectMode();
 			}
 		});
@@ -134,8 +121,47 @@ public class View extends Application {
 		gui.show();
 	}
 
+	/**
+	 * Generates a new association line and passes it to each UMLClass object. Also disables the dragging for UMLClass
+	 * and sets the view state to 1.
+	 */
+	protected void createAssociationArrow() {
+		// TODO Auto-generated method stub
+		text.setText("Now in line mode: Click on the parent, followed by the child");
+		text.setOpacity(1);
+		BinAssoc line = new BinAssoc(canvas);
+		for (Node i : canvas.getChildren()) {
+			if (UMLClass.class.isInstance(i)) {
+				((UMLClass) i).setDrag(false);
+				((UMLClass) i).setPoLine(line);
+			}
+		}
+		state = 1;
+	}
+
+	/**
+	 * Creates a new UMLClass object and adds it to the canvas. Also sets each UMLClass object to be dragable.
+	 */
+	protected void createClassDiagram() {
+		// TODO Auto-generated method stub
+		UMLClass two = new UMLClass(ref, new Text(), new TextArea(), new TextArea(), new TextArea());
+		canvas.getChildren().add(two);
+		//System.out.println(canvas.getChildren());
+		text.setText("New Class added");
+		fadeText();
+
+		for (Node i : canvas.getChildren()) {
+			if (UMLClass.class.isInstance(i))
+				((UMLClass) i).setDrag(true);
+		}
+	}
+
+	/**
+	 * Changes the state of view to zero, where all structure objects are dragable.
+	 */
 	public void selectMode() {
 
+		state = 0;
 		for (Node i : canvas.getChildren()) {
 			if (UMLClass.class.isInstance(i))
 				((UMLClass) i).setDrag(true);
@@ -144,10 +170,17 @@ public class View extends Application {
 		fadeText();
 	}
 
+	/**
+	 * Generates the menu by combining the Menu Bar and Tool Bar into the menu VBox.
+	 */
 	private void menuGenerate(VBox menu) {
 		menu.getChildren().addAll(CreateMenuBar(gui), CreateToolbar(gui));
 	}
 
+	/**
+	 * Changes the view's current state. Does not allow values that aren't 0, 1, or 2.
+	 * @param s - The state of the view
+	 */
 	public void setState(int s) {
 		if (s < 0 || s > 2)
 			state = 0;
