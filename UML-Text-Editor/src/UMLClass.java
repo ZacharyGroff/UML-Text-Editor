@@ -140,6 +140,7 @@ public class UMLClass extends VBox {
 				public void handle(MouseEvent mouseEvent) {
 					d.x = getLayoutX() - mouseEvent.getSceneX();
 					d.y = getLayoutY() - mouseEvent.getSceneY();
+					System.out.println(getLayoutX() + " " + getLayoutY());
 					setCursor(Cursor.MOVE);
 					toFront();
 				}
@@ -151,7 +152,7 @@ public class UMLClass extends VBox {
 					setLayoutX(mouseEvent.getSceneX() + d.x);
 					setLayoutY(mouseEvent.getSceneY() + d.y);
 					for (BinAssoc line : collection) {
-						line.update();
+						line.updatePoints();
 					}
 				}
 			});

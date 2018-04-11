@@ -14,6 +14,7 @@ public class BinAssoc extends Line {
 		canvas = c;
 		ref = this;
 		setStrokeWidth(5);
+		setOpacity(0);
 	}
 
 	public void setParent(UMLClass p) {
@@ -24,11 +25,43 @@ public class BinAssoc extends Line {
 
 	public void setChild(UMLClass c) {
 		child = c;
-		setEndX(child.getLayoutX() + child.getWidth() / 2);
-		setEndY(child.getLayoutY() + child.getHeight() / 2);
+		//setEndX(child.getLayoutX() + child.getWidth() / 2);
+		//setEndY(child.getLayoutY() + child.getHeight() / 2);
 		canvas.getChildren().add(ref);
 		toBack();
 		System.out.println(getStartX() + " " + getStartY());
+		updatePoints();
+		setOpacity(1);
+	}
+
+	public void updatePoints() {
+		// TODO Auto-generated method stub
+		if (Math.abs(child.getLayoutX() - parent.getLayoutX()) > Math.abs(child.getLayoutY() - parent.getLayoutY())) {
+			if (child.getLayoutX() > parent.getLayoutX()) {
+				setStartX(parent.getLayoutX() + parent.getWidth());
+				setStartY(parent.getLayoutY() + parent.getHeight() / 2);
+				setEndX(child.getLayoutX());
+				setEndY(child.getLayoutY() + child.getHeight() / 2);
+			} else {
+				setStartX(parent.getLayoutX());
+				setStartY(parent.getLayoutY() + parent.getHeight() / 2);
+				setEndX(child.getLayoutX() + child.getWidth());
+				setEndY(child.getLayoutY() + child.getHeight() / 2);
+			}
+		}
+		if (Math.abs(child.getLayoutX() - parent.getLayoutX()) < Math.abs(child.getLayoutY() - parent.getLayoutY())) {
+			if (child.getLayoutY() > parent.getLayoutY()) {
+				setStartX(parent.getLayoutX() + parent.getWidth() / 2);
+				setStartY(parent.getLayoutY() + parent.getHeight());
+				setEndX(child.getLayoutX() + child.getWidth() / 2);
+				setEndY(child.getLayoutY());
+			} else {
+				setStartX(parent.getLayoutX() + parent.getWidth() / 2);
+				setStartY(parent.getLayoutY());
+				setEndX(child.getLayoutX() + child.getWidth() / 2);
+				setEndY(child.getLayoutY() + child.getHeight());
+			}
+		}
 	}
 
 	public BinAssoc(double a, double b, double c, double d) {
@@ -43,7 +76,7 @@ public class BinAssoc extends Line {
 		setStrokeWidth(5);
 	}
 
-	public void update() {
+	/*public void update() {
 		// TODO Auto-generated method stub
 		if (parent != null) {
 			setStartX(parent.getLayoutX() + parent.getWidth() / 2);
@@ -53,7 +86,7 @@ public class BinAssoc extends Line {
 			setEndX(child.getLayoutX() + child.getWidth() / 2);
 			setEndY(child.getLayoutY() + child.getHeight() / 2);
 		}
-	}
+	}*/
 
 	public UMLClass getLineChild() {
 		return child;
