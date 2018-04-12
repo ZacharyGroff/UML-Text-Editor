@@ -5,7 +5,8 @@ public class BinAssoc extends Line {
 
 	Pane canvas;
 	double x1, x2, y1, y2;
-	UMLClass parent, child;
+	Structure parent;
+	Structure child;
 	BinAssoc ref;
 
 	public BinAssoc(Pane c) {
@@ -17,13 +18,13 @@ public class BinAssoc extends Line {
 		setOpacity(0);
 	}
 
-	public void setParent(UMLClass p) {
+	public void setParent(Structure p) {
 		parent = p;
 		setStartX(parent.getLayoutX() + parent.getWidth() / 2);
 		setStartY(parent.getLayoutY() + parent.getHeight() / 2);
 	}
 
-	public void setChild(UMLClass c) {
+	public void setChild(Structure c) {
 		child = c;
 		//setEndX(child.getLayoutX() + child.getWidth() / 2);
 		//setEndY(child.getLayoutY() + child.getHeight() / 2);
@@ -88,11 +89,11 @@ public class BinAssoc extends Line {
 		}
 	}*/
 
-	public UMLClass getLineChild() {
+	public Structure getLineChild() {
 		return child;
 	}
 
-	public UMLClass getLineParent() {
+	public Structure getLineParent() {
 		return parent;
 	}
 }

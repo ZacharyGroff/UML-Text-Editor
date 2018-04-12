@@ -101,7 +101,14 @@ public class View extends Application {
 				createClassDiagram();
 			}
 		});
+		
+		PackageDiagram.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
 
+				createPackage();
+			}
+		});
 
 		AssociationArrow.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -122,6 +129,19 @@ public class View extends Application {
 		gui.show();
 	}
 
+	protected void createPackage() {
+		// TODO Auto-generated method stub
+		Package pack = new Package(ref);
+		canvas.getChildren().add(pack);
+		text.setText("New Package added");
+		fadeText();
+		
+		for (Node i : canvas.getChildren()) {
+			if (Structure.class.isInstance(i))
+				((Structure) i).setDrag(true);
+		}
+	}
+
 	/**
 	 * Generates a new association line and passes it to each UMLClass object. Also disables the dragging for UMLClass
 	 * and sets the view state to 1.
@@ -132,9 +152,9 @@ public class View extends Application {
 		text.setOpacity(1);
 		BinAssoc line = new BinAssoc(canvas);
 		for (Node i : canvas.getChildren()) {
-			if (UMLClass.class.isInstance(i)) {
-				((UMLClass) i).setDrag(false);
-				((UMLClass) i).setPoLine(line);
+			if (Structure.class.isInstance(i)) {
+				((Structure) i).setDrag(false);
+				((Structure) i).setPoLine(line);
 			}
 		}
 		state = 1;
@@ -152,8 +172,8 @@ public class View extends Application {
 		fadeText();
 
 		for (Node i : canvas.getChildren()) {
-			if (UMLClass.class.isInstance(i))
-				((UMLClass) i).setDrag(true);
+			if (Structure.class.isInstance(i))
+				((Structure) i).setDrag(true);
 		}
 	}
 
@@ -164,8 +184,8 @@ public class View extends Application {
 
 		state = 0;
 		for (Node i : canvas.getChildren()) {
-			if (UMLClass.class.isInstance(i))
-				((UMLClass) i).setDrag(true);
+			if (Structure.class.isInstance(i))
+				((Structure) i).setDrag(true);
 		}
 		text.setText("Now in Select mode");
 		fadeText();
