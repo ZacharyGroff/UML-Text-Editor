@@ -66,8 +66,8 @@ public class View extends Application {
 		gui = primaryStage;
 
 		gui.setTitle("UML Text Editor");
-		gui.setHeight(768);
-		gui.setWidth(1024);
+		gui.setHeight(1000);
+		gui.setWidth(1333);
 
 		// create group
 		layout = new BorderPane();
@@ -118,6 +118,12 @@ public class View extends Application {
 				createAssociationArrow();
 			}
 		});
+		
+		AggregationArrow.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
+				createAggregationArrow();
+			}
+		});
 
 		Selector.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -150,7 +156,20 @@ public class View extends Application {
 		// TODO Auto-generated method stub
 		text.setText("Now in line mode: Click on the parent, followed by the child");
 		text.setOpacity(1);
-		BinAssoc line = new BinAssoc(canvas);
+		BinAssoc line = new BinAssoc(canvas);//BinAssoc line = new BinAssoc(canvas);
+		for (Node i : canvas.getChildren()) {
+			if (Structure.class.isInstance(i)) {
+				((Structure) i).setDrag(false);
+				((Structure) i).setPoLine(line);
+			}
+		}
+		state = 1;
+	}
+	
+	protected void createAggregationArrow() {
+		text.setText("Now in line mode: Click on the parent, followed by the child");
+		text.setOpacity(1);
+		Composition line = new Composition(canvas);//BinAssoc line = new BinAssoc(canvas);
 		for (Node i : canvas.getChildren()) {
 			if (Structure.class.isInstance(i)) {
 				((Structure) i).setDrag(false);

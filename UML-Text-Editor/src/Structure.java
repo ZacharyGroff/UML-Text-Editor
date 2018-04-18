@@ -7,15 +7,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.layout.Pane;
 
-/**
- * UMLClass is a Java representation of a UML Class diagram. UMLClass consists four child nodes:
- * one Text object and three TextArea objects. The Text object acts as a header and makes it 
- * clear to the user that UMLClass is a representation of a Class Diagram.  The three TextArea objects
- * contain information for the Class Diagram's name, attributes, and operations, in that order.
- * 
- * @author Matthew Gormley
- *
- */
 public abstract class Structure extends VBox {
 	// TODO find out how to expand textfields to support multiple lines
 	// TODO support resizing
@@ -27,30 +18,30 @@ public abstract class Structure extends VBox {
 	 */
 	static Boolean drag;
 	/**
-	 * A reference to the UMLClass itself.
+	 * A reference to the Structure itself.
 	 */
-	ArrayList<BinAssoc> collection = new ArrayList<>(10);
+	ArrayList<AbstractLine> collection = new ArrayList<>(10);
 	/**
-	 * An integer count of the number of lines associated with the UMLClass.
+	 * An integer count of the number of lines associated with the Structure.
 	 */
 	int lineCount;
 	/**
-	 * A reference to the view that created the UMLClass
+	 * A reference to the view that created the Structure
 	 */
 	View view;
 	
 	Structure ref;
 
 	/**
-	 * Creates a UMLClass with a set size and style as determined by the stylize method.
+	 * Creates a Structure with a set size and style as determined by the stylize method.
 	 * @param view 
 	 * 
 	 * @param view A reference to the view object that created the UMLCLass
 	 * @param type 
-	 * @param type The initial type for this UMLClass
+	 * @param type The initial type for this Structure
 	 * @param name 
-	 * @param className The initial name for this UMLClass
-	 * @param classAttr The initial attribute for this UMLClass
+	 * @param className The initial name for this Structure
+	 * @param classAttr The initial attribute for this Structure
 	 * @param classOp The initial operation for this UMLCLass
 	 */
 	/*public Structure(View view, Text type, TextArea className, TextArea classAttr, TextArea classOp) {
@@ -93,13 +84,13 @@ public abstract class Structure extends VBox {
 	}
 
 	/**
-	 * Handles all the mouse events for the UMLClass.  When the mouse hovers over the header of a UMLClass, then the
+	 * Handles all the mouse events for the Structure.  When the mouse hovers over the header of a Structure, then the
 	 * header color will change from blue to yellow.
 	 * 
-	 * If the Boolean drag is true, then clicking on a UMLCLass and dragging it will drag the UMLClass along with the mouse.
-	 * Dragging a UMLClass will also update the positions of all lines connected to UMLCLass objects.
+	 * If the Boolean drag is true, then clicking on a UMLCLass and dragging it will drag the Structure along with the mouse.
+	 * Dragging a Structure will also update the positions of all lines connected to UMLCLass objects.
 	 * 
-	 * If the Boolean drag is false, then clicking on a UMLClass will set that object to either be a parent or child of
+	 * If the Boolean drag is false, then clicking on a Structure will set that object to either be a parent or child of
 	 * the potential line.
 	 */
 	private void dragable() {
@@ -138,7 +129,7 @@ public abstract class Structure extends VBox {
 				public void handle(MouseEvent mouseEvent) {
 					setLayoutX(mouseEvent.getSceneX() + d.x);
 					setLayoutY(mouseEvent.getSceneY() + d.y);
-					for (BinAssoc line : collection) {
+					for (AbstractLine line : collection) {
 						line.updatePoints();
 					}
 				}
@@ -174,11 +165,11 @@ public abstract class Structure extends VBox {
 	protected abstract void highlight();
 
 	/**
-	 * Provides the UMLClass with a line that may use a reference to the UMLClass itself.
+	 * Provides the Structure with a line that may use a reference to the Structure itself.
 	 * 
-	 * @param line2 A line that may potentially need a reference to the UMLClass
+	 * @param line2 A line that may potentially need a reference to the Structure
 	 */
-	public void setPoLine(BinAssoc line2) {
+	public void setPoLine(AbstractLine line2) {
 		// TODO Auto-generated method stub
 		
 		lineCount++;
