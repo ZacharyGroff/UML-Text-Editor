@@ -102,6 +102,13 @@ public class View extends Application {
 			}
 		});
 		
+		Delete.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				Delete();
+			}
+		});
+		
 		PackageDiagram.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
@@ -168,6 +175,14 @@ public class View extends Application {
 			if (Structure.class.isInstance(i))
 				((Structure) i).setDrag(true);
 		}
+	}
+	
+	//Doesn't do anything YET - SG
+	protected void Delete() {
+		Structure.DeleteView(ref);
+		text.setText("Object Deleted");
+		fadeText();
+		
 	}
 
 	/**
