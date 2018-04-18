@@ -13,6 +13,9 @@ public abstract class Structure extends VBox {
 	Text type = new Text();
 	
 	TextArea name;
+	
+	static Pane canvas= new Pane();
+	
 	/**
 	 * Boolean value for whether the Class Diagrams can be dragged around. True indicates that they can be dragged.
 	 */
@@ -73,6 +76,11 @@ public abstract class Structure extends VBox {
 		drag = true;
 		ref = this;
 		this.view = view;
+	}
+	
+	//Doesn't Do Anything YET~ SG
+	public static void DeleteView(View view) {
+		canvas.getChildren().remove(view);
 	}
 	
 	/**
