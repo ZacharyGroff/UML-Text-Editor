@@ -1,10 +1,13 @@
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Polygon;
 
 public class DirAssoc extends AbstractLine{
 	
-	private Line line1 = new Line();
-	private Line line2 = new Line();
+	//private Line line1 = new Line();
+	//private Line line2 = new Line();
+	Polygon triangle = new Polygon();
 	Pane canvas;
 
 	public DirAssoc(Pane c) {
@@ -18,12 +21,11 @@ public class DirAssoc extends AbstractLine{
 	protected void stylize() {
 		// TODO Auto-generated method stub
 		setStrokeWidth(5);
-		line1.setStrokeWidth(5);
-		line2.setStrokeWidth(5);
-		line1.setOpacity(0);
-		line2.setOpacity(0);
-		canvas.getChildren().addAll(line1, line2);
-		//Line l = new Line();
+		triangle.setStrokeWidth(5);
+		triangle.setStroke(Color.BLACK);
+		triangle.setOpacity(0);
+		triangle.setFill(Color.WHITE);
+		canvas.getChildren().addAll(triangle);//line2);
 	}
 	
 	@Override
@@ -54,7 +56,15 @@ public class DirAssoc extends AbstractLine{
 				setEndY(child.getLayoutY() + child.getHeight());
 			}
 		}
-		line1.setStartX(getEndX());
+		triangle.getPoints().removeAll();
+		triangle.getPoints().setAll(
+				getEndX(), getEndY(),
+				getEndX() + (30) * -Math.cos(0.5 + Math.atan2(getEndY()-getStartY(), getEndX() - getStartX())),
+				getEndY() + (30) * -Math.sin(0.5 + Math.atan2(getEndY()-getStartY(), getEndX() - getStartX())),
+				getEndX() + (30) * -Math.cos(-0.5 + Math.atan2(getEndY()-getStartY(), getEndX() - getStartX())),
+				getEndY() + (30) * -Math.sin(-0.5 + Math.atan2(getEndY()-getStartY(), getEndX() - getStartX())));
+		triangle.setOpacity(1);
+		/*line1.setStartX(getEndX());
 		line1.setStartY(getEndY());
 		line1.setEndX(getEndX() + (30) * -Math.cos(0.5 + Math.atan2(getEndY()-getStartY(), getEndX() - getStartX())));
 		line1.setEndY(getEndY() + (30) * -Math.sin(0.5 + Math.atan2(getEndY()-getStartY(), getEndX() - getStartX())));
@@ -63,7 +73,7 @@ public class DirAssoc extends AbstractLine{
 		line2.setEndX(getEndX() + (30) * -Math.cos(-0.5 + Math.atan2(getEndY()-getStartY(), getEndX() - getStartX())));
 		line2.setEndY(getEndY() + (30) * -Math.sin(-0.5 + Math.atan2(getEndY()-getStartY(), getEndX() - getStartX())));
 		line1.setOpacity(1);
-		line2.setOpacity(1);
+		line2.setOpacity(1);*/
 	}
 
 }
