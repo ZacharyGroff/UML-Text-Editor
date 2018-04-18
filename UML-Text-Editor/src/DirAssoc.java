@@ -1,16 +1,16 @@
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 
-public class Composition extends AbstractLine{
+public class DirAssoc extends AbstractLine{
 	
-	Line line1 = new Line();
-	Line line2 = new Line();
+	private Line line1 = new Line();
+	private Line line2 = new Line();
 	Pane canvas;
 
-	public Composition(Pane c) {
+	public DirAssoc(Pane c) {
 		super(c);
 		canvas = c;
-		stylize();
+		//stylize();
 		// TODO Auto-generated constructor stub
 	}
 

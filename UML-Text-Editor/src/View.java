@@ -119,6 +119,14 @@ public class View extends Application {
 			}
 		});
 		
+		DependencyArrow.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				// TODO Auto-generated method stub
+				createDependencyArrow();
+			}
+		});
+		
 		AggregationArrow.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				createAggregationArrow();
@@ -133,6 +141,20 @@ public class View extends Application {
 		});
 
 		gui.show();
+	}
+
+	protected void createDependencyArrow() {
+		// TODO Auto-generated method stub
+		text.setText("Now in line mode: Click on the parent, followed by the child");
+		text.setOpacity(1);
+		Dependency line = new Dependency(canvas);//BinAssoc line = new BinAssoc(canvas);
+		for (Node i : canvas.getChildren()) {
+			if (Structure.class.isInstance(i)) {
+				((Structure) i).setDrag(false);
+				((Structure) i).setPoLine(line);
+			}
+		}
+		state = 1;
 	}
 
 	protected void createPackage() {
@@ -169,7 +191,7 @@ public class View extends Application {
 	protected void createAggregationArrow() {
 		text.setText("Now in line mode: Click on the parent, followed by the child");
 		text.setOpacity(1);
-		Composition line = new Composition(canvas);//BinAssoc line = new BinAssoc(canvas);
+		DirAssoc line = new DirAssoc(canvas);//BinAssoc line = new BinAssoc(canvas);
 		for (Node i : canvas.getChildren()) {
 			if (Structure.class.isInstance(i)) {
 				((Structure) i).setDrag(false);
@@ -302,8 +324,4 @@ public class View extends Application {
 
 		return toolBar;
 	}
-}
-
-class Delta {
-	double x, y;
 }

@@ -30,6 +30,7 @@ public abstract class AbstractLine extends Line {
 		child = c;
 		//setEndX(child.getLayoutX() + child.getWidth() / 2);
 		//setEndY(child.getLayoutY() + child.getHeight() / 2);
+		stylize();
 		canvas.getChildren().add(ref);
 		toBack();
 		System.out.println(getStartX() + " " + getStartY());

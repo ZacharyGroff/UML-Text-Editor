@@ -175,4 +175,24 @@ public abstract class Structure extends VBox {
 		lineCount++;
 		collection.add(line2);
 	}
+	
+	public double getX() {
+		return getLayoutX();
+	}
+	
+	public double getY() {
+		return getLayoutY();
+	}
+	
+	public void setX(int x) {
+		setLayoutX(x);
+	}
+	
+	public void setY(int y) {
+		setLayoutY(y);
+	}
+}
+
+class Delta {
+	double x, y;
 }
