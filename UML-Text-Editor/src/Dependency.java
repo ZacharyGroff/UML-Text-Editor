@@ -15,13 +15,14 @@ public class Dependency extends AbstractLine {
 	@Override
 	protected void stylize() {
 		// TODO Auto-generated method stub
-		setStrokeWidth(5);
-		line1.setStrokeWidth(5);
-		line2.setStrokeWidth(5);
+		System.out.println("aaa");
+		//line1.setStrokeWidth(5);
+		//line2.setStrokeWidth(5);
 		line1.setOpacity(0);
 		line2.setOpacity(0);
 		canvas.getChildren().addAll(line1, line2);
 		getStrokeDashArray().addAll(5d, 5d);
+		//setStrokeWidth(5);
 	}
 	
 	@Override

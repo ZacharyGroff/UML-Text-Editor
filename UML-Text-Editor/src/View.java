@@ -207,7 +207,7 @@ public class View extends Application {
 	protected void createClassDiagram() {
 		// TODO Auto-generated method stub
 		UMLClass two = new UMLClass(ref, new Text(), new TextArea(), new TextArea(), new TextArea());
-		canvas.getChildren().add(two);
+		addClassDiagram(two);//canvas.getChildren().add(two);
 		//System.out.println(canvas.getChildren());
 		text.setText("New Class added");
 		fadeText();
@@ -216,6 +216,10 @@ public class View extends Application {
 			if (Structure.class.isInstance(i))
 				((Structure) i).setDrag(true);
 		}
+	}
+	
+	private void addClassDiagram(UMLClass c) {
+		canvas.getChildren().add(c);
 	}
 
 	/**
