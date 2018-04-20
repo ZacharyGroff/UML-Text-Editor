@@ -15,7 +15,6 @@ public class Dependency extends AbstractLine {
 	@Override
 	protected void stylize() {
 		// TODO Auto-generated method stub
-		System.out.println("aaa");
 		//line1.setStrokeWidth(5);
 		//line2.setStrokeWidth(5);
 		line1.setOpacity(0);
@@ -63,6 +62,12 @@ public class Dependency extends AbstractLine {
 		line2.setEndY(getEndY() + (30) * -Math.sin(-0.5 + Math.atan2(getEndY()-getStartY(), getEndX() - getStartX())));
 		line1.setOpacity(1);
 		line2.setOpacity(1);
+	}
+
+	@Override
+	protected void remove() {
+		// TODO Auto-generated method stub
+		canvas.getChildren().removeAll(this,line1,line2);
 	}
 
 }

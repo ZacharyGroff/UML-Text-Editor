@@ -12,4 +12,8 @@ public class BinAssoc extends AbstractLine{
 		// TODO Auto-generated method stub
 		setStrokeWidth(5);
 	}
+	
+	protected void remove() {
+		canvas.getChildren().remove(this);
+	}
 }

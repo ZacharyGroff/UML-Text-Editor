@@ -11,6 +11,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToolBar;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -19,6 +20,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.*;
 import javafx.util.Duration;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 
 /**
  * 
@@ -32,6 +37,7 @@ public class View extends Application {
 	VBox menu;
 	Text text;
 	View ref;
+	Scene scene;
 
 	double orgSceneX, orgSceneY;
 	double orgTranslateX, orgTranslateY;
@@ -91,7 +97,7 @@ public class View extends Application {
 		ref = this;
 
 		// create Scene
-		Scene scene = new Scene(layout);
+		scene = new Scene(layout);
 		gui.setScene(scene);
 
 		ClassDiagram.setOnAction(new EventHandler<ActionEvent>() {
@@ -99,6 +105,13 @@ public class View extends Application {
 			public void handle(ActionEvent e) {
 
 				createClassDiagram();
+			}
+		});
+		
+		Delete.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				deleteStructure();
 			}
 		});
 		
@@ -139,8 +152,40 @@ public class View extends Application {
 				selectMode();
 			}
 		});
+		
+		generateShortcuts();
 
 		gui.show();
+	}
+
+	private void generateShortcuts() {
+		// TODO Auto-generated method stub
+		scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+		    final KeyCombination comb = new KeyCodeCombination(KeyCode.C, KeyCombination.ALT_DOWN);
+		    public void handle(KeyEvent event) {
+		        if (comb.match(event)) {
+		            createClassDiagram();
+		        }
+		    }
+		});
+		
+		scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+		    final KeyCombination comb = new KeyCodeCombination(KeyCode.P, KeyCombination.ALT_DOWN);
+		    public void handle(KeyEvent event) {
+		        if (comb.match(event)) {
+		            createPackage();
+		        }
+		    }
+		});
+		
+		scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+		    final KeyCombination comb = new KeyCodeCombination(KeyCode.A, KeyCombination.ALT_DOWN);
+		    public void handle(KeyEvent event) {
+		        if (comb.match(event)) {
+		            createAggregationArrow();
+		        }
+		    }
+		});
 	}
 
 	protected void createDependencyArrow() {
@@ -167,6 +212,20 @@ public class View extends Application {
 		for (Node i : canvas.getChildren()) {
 			if (Structure.class.isInstance(i))
 				((Structure) i).setDrag(true);
+		}
+	}
+	
+	//Doesn't do anything YET - SG
+	protected void deleteStructure() {
+		//Structure.DeleteView(ref);
+		text.setText("Click on a structure to delete it");
+		fadeText();
+		
+		for (Node i : canvas.getChildren()) {
+			if (Structure.class.isInstance(i)) {
+				((Structure) i).setDelete(true);
+				((Structure) i).setDrag(false);
+			}
 		}
 	}
 
@@ -206,9 +265,8 @@ public class View extends Application {
 	 */
 	protected void createClassDiagram() {
 		// TODO Auto-generated method stub
-		UMLClass two = new UMLClass(ref, new Text(), new TextArea(), new TextArea(), new TextArea());
-		addClassDiagram(two);//canvas.getChildren().add(two);
-		//System.out.println(canvas.getChildren());
+		UMLClass newClass = new UMLClass(ref, new Text(), new TextArea(), new TextArea(), new TextArea());
+		addClassDiagram(newClass);
 		text.setText("New Class added");
 		fadeText();
 
@@ -314,11 +372,13 @@ public class View extends Application {
 		
 		// create buttons
 		ClassDiagram = new Button("", ClassBoxImage);
+		ClassDiagram.setTooltip(new Tooltip("Click to add a Class Diagram (Shortcut: Alt - C)"));
 		PackageDiagram = new Button("", PackageImage);
 		AssociationArrow = new Button("", GeneralizationImage);
 		Delete = new Button("", DeleteImage );
 		CompositionArrow = new Button("", CompositionImage);
 		AggregationArrow = new Button("", AggregationImage);
+		AssociationArrow.setTooltip(new Tooltip("Click to add an Association Arrow (Shortcut: Alt - A"));
 		DependencyArrow = new Button("", DependencyImage);
 		Selector = new Button("", SelectorImage);
 

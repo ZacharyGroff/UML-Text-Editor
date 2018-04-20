@@ -14,11 +14,13 @@ public abstract class AbstractLine extends Line {
 		setMouseTransparent(true);
 		canvas = c;
 		ref = this;
-		//setStrokeWidth(5);
-		setOpacity(0);
 	}
 	
 	protected abstract void stylize();
+	
+	private Boolean checkStruct() {
+		return child != null;
+	}
 	
 	public void setParent(Structure p) {
 		parent = p;
@@ -33,14 +35,12 @@ public abstract class AbstractLine extends Line {
 		stylize();
 		canvas.getChildren().add(ref);
 		toBack();
-		System.out.println(getStartX() + " " + getStartY());
 		updatePoints();
-		setOpacity(1);
 	}
 
 	public void updatePoints() {
 		// TODO Auto-generated method stub
-		if (Math.abs(child.getLayoutX() - parent.getLayoutX()) > Math.abs(child.getLayoutY() - parent.getLayoutY())) {
+		if (checkStruct() && Math.abs(child.getLayoutX() - parent.getLayoutX()) > Math.abs(child.getLayoutY() - parent.getLayoutY())) {
 			if (child.getLayoutX() > parent.getLayoutX()) {
 				setStartX(parent.getLayoutX() + parent.getWidth());
 				setStartY(parent.getLayoutY() + parent.getHeight() / 2);
@@ -53,7 +53,7 @@ public abstract class AbstractLine extends Line {
 				setEndY(child.getLayoutY() + child.getHeight() / 2);
 			}
 		}
-		if (Math.abs(child.getLayoutX() - parent.getLayoutX()) < Math.abs(child.getLayoutY() - parent.getLayoutY())) {
+		if (checkStruct() && Math.abs(child.getLayoutX() - parent.getLayoutX()) < Math.abs(child.getLayoutY() - parent.getLayoutY())) {
 			if (child.getLayoutY() > parent.getLayoutY()) {
 				setStartX(parent.getLayoutX() + parent.getWidth() / 2);
 				setStartY(parent.getLayoutY() + parent.getHeight());
@@ -99,4 +99,6 @@ public abstract class AbstractLine extends Line {
 	public Structure getLineParent() {
 		return parent;
 	}
+
+	protected abstract void remove();
 }

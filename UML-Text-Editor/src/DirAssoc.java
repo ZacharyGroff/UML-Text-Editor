@@ -1,6 +1,5 @@
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 
 public class DirAssoc extends AbstractLine{
@@ -74,6 +73,12 @@ public class DirAssoc extends AbstractLine{
 		line2.setEndY(getEndY() + (30) * -Math.sin(-0.5 + Math.atan2(getEndY()-getStartY(), getEndX() - getStartX())));
 		line1.setOpacity(1);
 		line2.setOpacity(1);*/
+	}
+
+	@Override
+	protected void remove() {
+		// TODO Auto-generated method stub
+		canvas.getChildren().removeAll(this, triangle);
 	}
 
 }

@@ -5,7 +5,7 @@ public class Package extends Structure {
 	public Package(View view) {
 		super(view, new Text(), new TextArea());
 		stylize();
-		System.out.println(this);
+		//System.out.println(this);
 	}
 
 	protected void stylize() {

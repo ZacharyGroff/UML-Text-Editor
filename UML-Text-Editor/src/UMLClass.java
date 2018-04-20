@@ -63,10 +63,28 @@ public class UMLClass extends Structure {
 		attr.setPromptText("Attributes");
 		op.setPromptText("Operations");
 		setPrefWidth(150);
-		setPrefHeight(250);
+		setPrefHeight(250);;
 		name.setWrapText(true);
 		attr.setWrapText(true);
 		op.setWrapText(true);
+		/*name.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                 name.setPrefHeight(name.getPrefHeight()+1); 
+            }
+        });
+		attr.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                 attr.setPrefHeight(attr.getPrefHeight()+10); 
+            }
+        });
+		op.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                 op.setPrefHeight(op.getPrefHeight()+10); 
+            }
+        });*/
 		setStyle("-fx-background-color: #00b8f5;\n" + "-fx-border-color: black;\n" + "-fx-border-width: 3;");
 	}
 	
