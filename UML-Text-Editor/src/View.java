@@ -105,7 +105,7 @@ public class View extends Application {
 		Delete.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				Delete();
+				deleteStructure();
 			}
 		});
 		
@@ -178,11 +178,17 @@ public class View extends Application {
 	}
 	
 	//Doesn't do anything YET - SG
-	protected void Delete() {
-		Structure.DeleteView(ref);
-		text.setText("Object Deleted");
+	protected void deleteStructure() {
+		//Structure.DeleteView(ref);
+		text.setText("Click on a structure to delete it");
 		fadeText();
 		
+		for (Node i : canvas.getChildren()) {
+			if (Structure.class.isInstance(i)) {
+				((Structure) i).setDelete(true);
+				((Structure) i).setDrag(false);
+			}
+		}
 	}
 
 	/**

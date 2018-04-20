@@ -14,12 +14,14 @@ public abstract class Structure extends VBox {
 	
 	TextArea name;
 	
-	static Pane canvas= new Pane();
+	//static Pane canvas= new Pane();
 	
 	/**
 	 * Boolean value for whether the Class Diagrams can be dragged around. True indicates that they can be dragged.
 	 */
 	static Boolean drag;
+	
+	static Boolean delete;
 	/**
 	 * A reference to the Structure itself.
 	 */
@@ -74,14 +76,15 @@ public abstract class Structure extends VBox {
 		super(type, className, classAttr, classOp);
 		lineCount = 0;
 		drag = true;
+		delete = false;
 		ref = this;
 		this.view = view;
 	}
 	
 	//Doesn't Do Anything YET~ SG
-	public static void DeleteView(View view) {
+	/*public static void DeleteView(View view) {
 		canvas.getChildren().remove(view);
-	}
+	}*/
 	
 	/**
 	 * Sets the value of the property drag, and calls the dragable method with this updated value.
@@ -118,15 +121,27 @@ public abstract class Structure extends VBox {
 				unhighlight();//setStyle("-fx-background-color: #00b8f5;\n" + "-fx-border-color: black;\n" + "-fx-border-width: 3;");
 			}
 		});
+		
+		if (delete) {
+			setOnMousePressed(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent mouseEvent) {
+					System.out.println("aaa");
+					view.canvas.getChildren().remove(ref);
+					setDelete(false);
+					setDrag(true);
+				}
+			});
+		}
 
-		if (drag) {
+		else if (drag) {
 
 			setOnMousePressed(new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent mouseEvent) {
 					d.x = getLayoutX() - mouseEvent.getSceneX();
 					d.y = getLayoutY() - mouseEvent.getSceneY();
-					System.out.println(getLayoutX() + " " + getLayoutY());
+					//System.out.println(getLayoutX() + " " + getLayoutY());
 					setCursor(Cursor.MOVE);
 					toFront();
 				}
@@ -198,6 +213,11 @@ public abstract class Structure extends VBox {
 	
 	public void setY(int y) {
 		setLayoutY(y);
+	}
+
+	public void setDelete(boolean b) {
+		// TODO Auto-generated method stub
+		delete = b;
 	}
 }
 
