@@ -140,6 +140,14 @@ public class View extends Application {
 			}
 		});
 		
+		CompositionArrow.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				// TODO Auto-generated method stub
+				createCompositionArrow();
+			}
+		});
+		
 		AggregationArrow.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				createAggregationArrow();
@@ -179,10 +187,37 @@ public class View extends Application {
 		});
 		
 		scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
-		    final KeyCombination comb = new KeyCodeCombination(KeyCode.A, KeyCombination.ALT_DOWN);
+		    final KeyCombination comb = new KeyCodeCombination(KeyCode.G, KeyCombination.ALT_DOWN);
 		    public void handle(KeyEvent event) {
 		        if (comb.match(event)) {
 		            createAggregationArrow();
+		        }
+		    }
+		});
+		
+		scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+		    final KeyCombination comb = new KeyCodeCombination(KeyCode.D, KeyCombination.ALT_DOWN);
+		    public void handle(KeyEvent event) {
+		        if (comb.match(event)) {
+		            createDependencyArrow();
+		        }
+		    }
+		});
+		
+		scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+		    final KeyCombination comb = new KeyCodeCombination(KeyCode.O, KeyCombination.ALT_DOWN);
+		    public void handle(KeyEvent event) {
+		        if (comb.match(event)) {
+		            createCompositionArrow();
+		        }
+		    }
+		});
+		
+		scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+		    final KeyCombination comb = new KeyCodeCombination(KeyCode.A, KeyCombination.ALT_DOWN);
+		    public void handle(KeyEvent event) {
+		        if (comb.match(event)) {
+		            createAssociationArrow();
 		        }
 		    }
 		});
@@ -190,7 +225,7 @@ public class View extends Application {
 
 	protected void createDependencyArrow() {
 		// TODO Auto-generated method stub
-		text.setText("Now in line mode: Click on the parent, followed by the child");
+		text.setText("Now in line mode: Click on the source, followed by the target");
 		text.setOpacity(1);
 		Dependency line = new Dependency(canvas);//BinAssoc line = new BinAssoc(canvas);
 		for (Node i : canvas.getChildren()) {
@@ -215,9 +250,7 @@ public class View extends Application {
 		}
 	}
 	
-	//Doesn't do anything YET - SG
 	protected void deleteStructure() {
-		//Structure.DeleteView(ref);
 		text.setText("Click on a structure to delete it");
 		fadeText();
 		
@@ -229,15 +262,29 @@ public class View extends Application {
 		}
 	}
 
+	protected void createCompositionArrow() {
+		// TODO Auto-generated method stub
+		text.setText("Now in line mode: Click on the child, followed by the parent");
+		text.setOpacity(1);
+		CompLine line = new CompLine(canvas);
+		for (Node i : canvas.getChildren()) {
+			if (Structure.class.isInstance(i)) {
+				((Structure) i).setDrag(false);
+				((Structure) i).setPoLine(line);
+			}
+		}
+		state = 1;
+	}
+	
 	/**
 	 * Generates a new association line and passes it to each UMLClass object. Also disables the dragging for UMLClass
 	 * and sets the view state to 1.
 	 */
 	protected void createAssociationArrow() {
 		// TODO Auto-generated method stub
-		text.setText("Now in line mode: Click on the parent, followed by the child");
+		text.setText("Now in line mode: Click on the child, followed by the parent");
 		text.setOpacity(1);
-		BinAssoc line = new BinAssoc(canvas);//BinAssoc line = new BinAssoc(canvas);
+		BinAssoc line = new BinAssoc(canvas);
 		for (Node i : canvas.getChildren()) {
 			if (Structure.class.isInstance(i)) {
 				((Structure) i).setDrag(false);
@@ -248,9 +295,9 @@ public class View extends Application {
 	}
 	
 	protected void createAggregationArrow() {
-		text.setText("Now in line mode: Click on the parent, followed by the child");
+		text.setText("Now in line mode: Click on the child, followed by the parent");
 		text.setOpacity(1);
-		DirAssoc line = new DirAssoc(canvas);//BinAssoc line = new BinAssoc(canvas);
+		DirAssoc line = new DirAssoc(canvas);
 		for (Node i : canvas.getChildren()) {
 			if (Structure.class.isInstance(i)) {
 				((Structure) i).setDrag(false);
@@ -374,12 +421,16 @@ public class View extends Application {
 		ClassDiagram = new Button("", ClassBoxImage);
 		ClassDiagram.setTooltip(new Tooltip("Click to add a Class Diagram (Shortcut: Alt - C)"));
 		PackageDiagram = new Button("", PackageImage);
+		PackageDiagram.setTooltip(new Tooltip("Click to add a Package (Shortcut: Alt - P"));
 		AssociationArrow = new Button("", GeneralizationImage);
+		AssociationArrow.setTooltip(new Tooltip("Click to add an Association (Shortcut: Alt - A"));
 		Delete = new Button("", DeleteImage );
 		CompositionArrow = new Button("", CompositionImage);
+		CompositionArrow.setTooltip(new Tooltip("Click to add a Composition Arrow (Shortcut: Alt - O"));
 		AggregationArrow = new Button("", AggregationImage);
-		AssociationArrow.setTooltip(new Tooltip("Click to add an Association Arrow (Shortcut: Alt - A"));
+		AggregationArrow.setTooltip(new Tooltip("Click to add an Aggregation Arrow (Shortcut: Alt - G"));
 		DependencyArrow = new Button("", DependencyImage);
+		DependencyArrow.setTooltip(new Tooltip("Click to add a Dependency Arrow (Shortcut: Alt - D"));
 		Selector = new Button("", SelectorImage);
 
 		// add buttons to toolbar
