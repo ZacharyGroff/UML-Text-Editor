@@ -1,11 +1,18 @@
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
+
 
 public class Dependency extends AbstractLine {
 
+	
 	private Line line1 = new Line();
 	private Line line2 = new Line();
-
+	private Pane lines = new Pane();
+	private VBox multiplicity = new VBox();
+	private TextArea type = new TextArea();
+	
 	public Dependency(Pane c) {
 		super(c);
 		//stylize();
@@ -14,14 +21,21 @@ public class Dependency extends AbstractLine {
 
 	@Override
 	protected void stylize() {
+		
+		//type.setPromptText("multiplicity");
 		// TODO Auto-generated method stub
-		//line1.setStrokeWidth(5);
-		//line2.setStrokeWidth(5);
+		setStrokeWidth(5);
+		line1.setStrokeWidth(5);
+		line2.setStrokeWidth(5);
 		line1.setOpacity(0);
 		line2.setOpacity(0);
-		canvas.getChildren().addAll(line1, line2);
+		type.setPrefWidth(40);
+		type.setPrefHeight(5);
+		//lines.getChildren().addAll(line1, line2,type);
+		canvas.getChildren().addAll(line1,line2,type);
+
 		getStrokeDashArray().addAll(5d, 5d);
-		//setStrokeWidth(5);
+
 	}
 	
 	@Override
@@ -62,12 +76,9 @@ public class Dependency extends AbstractLine {
 		line2.setEndY(getEndY() + (30) * -Math.sin(-0.5 + Math.atan2(getEndY()-getStartY(), getEndX() - getStartX())));
 		line1.setOpacity(1);
 		line2.setOpacity(1);
-	}
-
-	@Override
-	protected void remove() {
-		// TODO Auto-generated method stub
-		canvas.getChildren().removeAll(this,line1,line2);
+		type.setLayoutX(getEndX());
+		type.setLayoutY(getEndY());
+		type.toFront();
 	}
 
 }
